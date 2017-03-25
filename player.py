@@ -3,6 +3,7 @@ from pygame.locals import*
 import os, sys
 vec = pygame.math.Vector2
 
+
 class Character(pygame.sprite.Sprite):
     """ make main player character """
 
