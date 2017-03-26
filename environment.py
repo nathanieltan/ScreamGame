@@ -1,6 +1,5 @@
 import pygame
 from pygame.locals import*
-import os, sys
 
 
 class Level():
@@ -20,15 +19,18 @@ class Level():
 class GroundBlock(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        pass
+        image = pygame.image.load('block.png')
+
+        self.image = image.convert()
+        self.image = image.convert_alpha()
+        self.rect = image.get_rect()
 
 
 class Block(pygame.sprite.Sprite):
     """ Level block elements for character to jump on """
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        name = os.path.join('block.png')
-        image = pygame.image.load(name)
+        image = pygame.image.load('block.png')
 
         self.image = image.convert()
         self.image = image.convert_alpha()
@@ -63,11 +65,14 @@ class Level_1(Level):
     def __init__(self):
         Level.__init__(self)
 
-        groundPositions = []
-        blockPositions = []
-        fallObjectsPositions = []
-        spikePositions = []
-        fanPositions = []
+        groundPositions = [[0, 576],
+                           [64, 576],
+                           [192, 576],
+                           [256, 576]]
+        blockPositions = [[256, 512]]
+        # fallObjectsPositions = []
+        # spikePositions = []
+        # fanPositions = []
 
         for position in groundPositions:
             ground = GroundBlock()
@@ -79,10 +84,10 @@ class Level_1(Level):
             block = Block()
             block.rect.x = position[0]
             block.rect.y = position[1]
-            self.blockList.add(ground)
+            self.blockList.add(block)
 
-        for position in fallObjectsPositions:
-            fallObject = FallingObject()
-            block.rect.x = position[0]
-            block.rect.y = position[1]
-            self.deathList.add(fallObject)
+        # for position in fallObjectsPositions:
+        #     fallObject = FallingObject()
+        #     block.rect.x = position[0]
+        #     block.rect.y = position[1]
+        #     self.deathList.add(fallObject)
