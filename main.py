@@ -5,7 +5,7 @@ from environment import *
 from player import *
 clock = pygame.time.Clock()
 dt = None
-
+displayDebug = False  # variable that controls whether debug info is being displayed
 
 class ScreamGameMain():
     def __init__(self, width=640, height=640):
@@ -18,6 +18,7 @@ class ScreamGameMain():
     def MainLoop(self):
         """ main loop of game """
         self.loadSprites()
+        global displayDebug
         global dt
         # allow player to hold down keys for continous input
         pygame.key.set_repeat(50, 100)
@@ -33,19 +34,41 @@ class ScreamGameMain():
                 if event.type == pygame.QUIT:
                     pygame.display.quit()
                     sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    keys = pygame.key.get_pressed()
+                    if keys[pygame.K_F3]:
+                        if displayDebug:
+                            displayDebug = False
+                        else:
+                            displayDebug = True
             self.draw()
             self.update()
 
     def update(self):
         global dt
 
-        # self.character.applyGravity = True
+        # bool if character collides with safe envirnoment
+        hits = pygame.sprite.spritecollideany(self.character,self.safeEnviron, False)
+
+        if hits:
+            self.character.applyGravity = False
+            self.character.vel.y = 0
+            self.character.pos.y = hits.rect.top+1
+        else:
+            self.character.applyGravity = True
+
         self.gameSprites.update(dt)
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
         self.gameSprites.draw(self.screen)
 
+        if displayDebug:
+            if pygame.font:
+                font = pygame.font.Font(None, 36)
+                text = font.render("Gravity: %s" % self.character.applyGravity,1,(0,0,0))
+                textpos = text.get_rect(top=100, centerx = self.screen.get_width()/2)
+                self.screen.blit(text, textpos)
         pygame.display.flip()
 
     def loadSprites(self):
@@ -54,7 +77,8 @@ class ScreamGameMain():
 
         self.gameSprites = pygame.sprite.Group(self.character, self.lvl.groundList,
                                                self.lvl.blockList)
-
+        # Sprite Group for environment sprites that won't kill the character
+        self.safeEnviron = pygame.sprite.Group(self.lvl.blockList, self.lvl.groundList)
 
 if __name__ == "__main__":
     MainWindow = ScreamGameMain()

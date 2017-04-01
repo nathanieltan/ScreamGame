@@ -3,7 +3,7 @@ from pygame.locals import*
 import os, sys
 vec = pygame.math.Vector2
 facingRight = True
-gravity = 300000
+gravity = 30000
 friction = -3
 
 
@@ -17,6 +17,7 @@ class Character(pygame.sprite.Sprite):
         self.image = image.convert_alpha()
         self.rect = image.get_rect()
 
+        # initializes physics vectors
         self.pos = vec(32, 576)
         self.vel = vec(0, 0)
         self.accel = vec(0, 0)
@@ -31,6 +32,7 @@ class Character(pygame.sprite.Sprite):
 
         self.updateAnimation()
 
+        # character keyboard inputs
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.accel.x = -500
@@ -46,30 +48,32 @@ class Character(pygame.sprite.Sprite):
         elif not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
             self.accel.x = 0
 
-        elif keys[pygame.K_UP]:
+        if keys[pygame.K_UP]:  # jumping
             if not self.applyGravity:
                 self.vel.y = -350
 
+        # calls method so character moves
         self.move(dt)
 
     def updateAnimation(self):
         """ walking animation"""
+        # list of walking animation sprites
         walking = ['cat_walk_1.png', 'cat_walk_2.png', 'cat_walk_3.png',
                    'cat_walk_4.png']
         self.animationFrames = (self.animationFrames+1) % 10
 
         if self.animationFrames == 2:
-            if int(self.vel.x) != 0:
+            if int(self.vel.x) != 0:  # if the character is moving, moves along in the animation
                 self.animationState = (self.animationState+1) % len(walking)
                 image = pygame.image.load(walking[self.animationState])
                 self.image = image.convert()
                 self.image = image.convert_alpha()
-            else:
+            else:  # if the character isn't moving, changes sprite to the standing image
                 self.animationState = 0
                 image = pygame.image.load('cat_stand.png')
                 self.image = image.convert()
                 self.image = image.convert_alpha()
-            if not facingRight:
+            if not facingRight:  # makes sure the sprite is facing the correct direction
                 self.image = pygame.transform.flip(self.image, True, False)
 
 
