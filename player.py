@@ -12,10 +12,11 @@ class Character(pygame.sprite.Sprite):
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        image = pygame.image.load('cat_stand.png')
+        image = pygame.image.load('hambo_stand.png')
         self.image = image.convert()
         self.image = image.convert_alpha()
-        self.rect = image.get_rect()
+        self.image = pygame.transform.scale2x(self.image)
+        self.rect = self.image.get_rect()
 
         # initializes physics vectors
         self.pos = vec(32, 576)
@@ -79,8 +80,7 @@ class Character(pygame.sprite.Sprite):
     def updateAnimation(self):
         """ walking animation"""
         # list of walking animation sprites
-        walking = ['cat_walk_1.png', 'cat_walk_2.png', 'cat_walk_3.png',
-                   'cat_walk_4.png']
+        walking = ['hambo_walk_1.png', 'hambo_walk_2.png']
         self.animationFrames = (self.animationFrames+1) % 10
 
         if self.animationFrames == 2:
@@ -91,12 +91,12 @@ class Character(pygame.sprite.Sprite):
                 self.image = image.convert_alpha()
             else:  # if the character isn't moving, changes sprite to the standing image
                 self.animationState = 0
-                image = pygame.image.load('cat_stand.png')
+                image = pygame.image.load('hambo_stand.png')
                 self.image = image.convert()
                 self.image = image.convert_alpha()
             if not facingRight:  # makes sure the sprite is facing the correct direction
                 self.image = pygame.transform.flip(self.image, True, False)
-
+            self.image = pygame.transform.scale2x(self.image)
     def collide(self,environment, xvel, yvel):
         verticallyCollide = False
         for element in environment.sprites():

@@ -8,7 +8,7 @@ dt = None
 displayDebug = False  # variable that controls whether debug info is being displayed
 
 class ScreamGameMain():
-    def __init__(self, width=640, height=640):
+    def __init__(self, width=1000, height=1000):
         self.width = width
         self.height = height
         pygame.init()

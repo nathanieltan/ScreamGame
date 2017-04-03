@@ -67,9 +67,12 @@ class Level_1(Level):
 
         groundPositions = [[0, 576],
                            [64, 576],
+                           [128, 576],
                            [192, 576],
-                           [256, 576]]
-        blockPositions = [[256, 512]]
+                           [256, 576],
+                           [320, 576]]
+        blockPositions = [[256, 512],
+                          [64, 320]]
         # fallObjectsPositions = []
         # spikePositions = []
         # fanPositions = []
