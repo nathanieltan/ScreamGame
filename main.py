@@ -47,17 +47,7 @@ class ScreamGameMain():
     def update(self):
         global dt
 
-        # bool if character collides with safe envirnoment
-        hits = pygame.sprite.spritecollideany(self.character,self.safeEnviron, False)
-
-        if hits:
-            self.character.applyGravity = False
-            self.character.vel.y = 0
-            self.character.pos.y = hits.rect.top+1
-        else:
-            self.character.applyGravity = True
-
-        self.gameSprites.update(dt)
+        self.gameSprites.update(dt,self.allEnviron)
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
@@ -66,7 +56,8 @@ class ScreamGameMain():
         if displayDebug:
             if pygame.font:
                 font = pygame.font.Font(None, 36)
-                text = font.render("Gravity: %s" % self.character.applyGravity,1,(0,0,0))
+                text = font.render("Gravity: %s Velocity: %s,%s" %
+                                   (self.character.applyGravity,int(self.character.vel.x),int(self.character.vel.y)),1,(0,0,0))
                 textpos = text.get_rect(top=100, centerx = self.screen.get_width()/2)
                 self.screen.blit(text, textpos)
         pygame.display.flip()
@@ -79,6 +70,10 @@ class ScreamGameMain():
                                                self.lvl.blockList)
         # Sprite Group for environment sprites that won't kill the character
         self.safeEnviron = pygame.sprite.Group(self.lvl.blockList, self.lvl.groundList)
+        # Sprite Group for environment sprites that will kill the character
+
+        # Sprite Group for all environment
+        self.allEnviron = pygame.sprite.Group(self.lvl.blockList,self.lvl.groundList)
 
 if __name__ == "__main__":
     MainWindow = ScreamGameMain()
