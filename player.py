@@ -10,16 +10,16 @@ friction = -3
 class Character(pygame.sprite.Sprite):
     """ make main player character """
 
-    def __init__(self):
+    def __init__(self,spawnPos):
         pygame.sprite.Sprite.__init__(self)
-        image = pygame.image.load('hambo_stand.png')
+        image = pygame.image.load('images/hambo_stand.png')
         self.image = image.convert()
         self.image = image.convert_alpha()
         self.image = pygame.transform.scale2x(self.image)
         self.rect = self.image.get_rect()
 
         # initializes physics vectors
-        self.pos = vec(32, 576)
+        self.pos = spawnPos
         self.vel = vec(0, 0)
         self.accel = vec(0, 0)
         self.applyGravity = False
@@ -80,7 +80,7 @@ class Character(pygame.sprite.Sprite):
     def updateAnimation(self):
         """ walking animation"""
         # list of walking animation sprites
-        walking = ['hambo_walk_1.png', 'hambo_walk_2.png']
+        walking = ['images/hambo_walk_1.png', 'images/hambo_walk_2.png']
         self.animationFrames = (self.animationFrames+1) % 10
 
         if self.animationFrames == 2:
@@ -91,7 +91,7 @@ class Character(pygame.sprite.Sprite):
                 self.image = image.convert_alpha()
             else:  # if the character isn't moving, changes sprite to the standing image
                 self.animationState = 0
-                image = pygame.image.load('hambo_stand.png')
+                image = pygame.image.load('images/hambo_stand.png')
                 self.image = image.convert()
                 self.image = image.convert_alpha()
             if not facingRight:  # makes sure the sprite is facing the correct direction

@@ -23,7 +23,7 @@ class ScreamGameMain():
         # allow player to hold down keys for continous input
         pygame.key.set_repeat(50, 100)
 
-        self.background = pygame.image.load('clouds.jpg')
+        self.background = pygame.image.load('images/clouds.jpg')
         self.background = self.background.convert()
 
         while 1:
@@ -63,8 +63,8 @@ class ScreamGameMain():
         pygame.display.flip()
 
     def loadSprites(self):
-        self.character = Character()
         self.lvl = Level_1()
+        self.character = Character(self.lvl.playerSpawn)
 
         self.gameSprites = pygame.sprite.Group(self.character, self.lvl.groundList,
                                                self.lvl.blockList)
