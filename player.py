@@ -20,6 +20,8 @@ class Character(pygame.sprite.Sprite):
 
         # initializes physics vectors
         self.pos = spawnPos
+        self.rect.x = self.pos[0]
+        self.rect.y = self.pos[1]
         self.vel = vec(0, 0)
         self.accel = vec(0, 0)
         self.applyGravity = False

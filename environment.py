@@ -7,13 +7,40 @@ class Level():
     """
     Generic Level Class
     """
-    def __init__(self):
+    def __init__(self,levelName):
         self.groundList = pygame.sprite.Group()
         self.blockList = pygame.sprite.Group()
         self.deathList = pygame.sprite.Group()
         self.screenShift = 0
         self.playerSpawn = vec(0,0)
 
+        f = open("levels/%s.txt" %levelName)
+
+        text = "".join(f.read().split())  # get's rid of all whitespace
+
+        f.close()
+
+        playerStart = text.find('Player:')
+        playerEnd = text.find('Ground:')
+        groundStart = text.find('Ground:')
+        groundEnd = text.find('Block:')
+        blockStart = text.find('Block:')
+        blockEnd = len(text)
+
+        playerSpawnList = ast.literal_eval(text[playerStart+7:playerEnd])
+        groundPositions = ast.literal_eval(text[groundStart+7:groundEnd])
+        blockPositions = ast.literal_eval(text[blockStart+6:blockEnd])
+
+        for position in groundPositions:
+            ground = GroundBlock(position[0],position[1])
+            self.groundList.add(ground)
+
+        for position in blockPositions:
+            block = Block(position[0],position[1])
+            self.blockList.add(block)
+
+        self.allSprites = pygame.sprite.Group(self.blockList,self.deathList,self.groundList)
+        self.playerSpawn = vec(playerSpawnList[0],playerSpawnList[1])  # the initial position for the player
     def shiftScreen(self, shift_x):
         """ controls side scrolling of screen """
 
@@ -60,45 +87,3 @@ class Spikes(pygame.sprite.Sprite):
     def __init__(self,x,y):
         pygame.sprite.Sprite.__init__(self)
         pass
-
-
-class Level_1(Level):
-    """
-    Design for Level 1
-    """
-    def __init__(self):
-        Level.__init__(self)
-        f = open("levels/level1.txt")
-
-        text = "".join(f.read().split())
-        print(text)
-        f.close()
-
-        playerStart = text.find('Player:')
-        playerEnd = text.find('Ground:')
-        groundStart = text.find('Ground:')
-        groundEnd = text.find('Block:')
-        blockStart = text.find('Block:')
-        blockEnd = len(text)
-
-        playerSpawnList = ast.literal_eval(text[playerStart+7:playerEnd])
-        groundPositions = ast.literal_eval(text[groundStart+7:groundEnd])
-        blockPositions = ast.literal_eval(text[blockStart+6:blockEnd])
-
-        # fallObjectsPositions = []
-        # spikePositions = []
-        # fanPositions = []
-
-        for position in groundPositions:
-            ground = GroundBlock(position[0],position[1])
-            self.groundList.add(ground)
-
-        for position in blockPositions:
-            block = Block(position[0],position[1])
-            self.blockList.add(block)
-        self.playerSpawn = vec(playerSpawnList[0],playerSpawnList[1])  # the initial position for the player
-        # for position in fallObjectsPositions:
-        #     fallObject = FallingObject()
-        #     block.rect.x = position[0]
-        #     block.rect.y = position[1]
-        #     self.deathList.add(fallObject)
