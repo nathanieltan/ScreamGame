@@ -47,7 +47,7 @@ class Level():
 class GroundBlock(pygame.sprite.Sprite):
     def __init__(self,x,y):
         pygame.sprite.Sprite.__init__(self)
-        image = pygame.image.load('images/block.png')
+        image = pygame.image.load('images/ground.png')
 
         self.image = image.convert()
         self.image = image.convert_alpha()
