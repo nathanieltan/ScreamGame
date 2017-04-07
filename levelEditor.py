@@ -3,7 +3,7 @@ from pygame.locals import *
 import os, sys
 from environment import *
 from player import *
-
+import random
 class levelEditorMain():
     def __init__(self, width=1152,height=896):
         self.width = width
@@ -60,7 +60,26 @@ class levelEditorMain():
             self.elements.add(Character(editingLevel.playerSpawn))
             print("Level Loaded!")
         except IOError:
-            print("Uh Oh Spaghettios That Level Does Not Exist")
+            errorMessages = ["Uh Oh Spaghettios That Level Does Not Exist",
+                             "Ruh Roh Raggy, There's No Level But There Is A Scooby-Snack",
+                             "Oopsy Doopsy, I Don't Think That Level Exists",
+                             "Had A Bit Too Much To Drink? That Level Doesn't Even Exist",
+                             "You Done Messed Up A-Aron, That Level Don't Exist",
+                             "Woops-a-Daisy, I Can't Seem To Find That Level",
+                             "Oh My, How Undignified, It Appears That I Am Unable to Locate That Level For You. Much Apology.",
+                             "OH NOES EYE DONT NOS WHR UR LVL IS",
+                             "Snap, Seems That You Mistyped, Try Again",
+                             "Why You Bein' Dumb? Dat Aint No Level Name",
+                             "Yo sorry dat level do not exist Jus' like Orenthawl James",
+                             "Yo Sorry, dat level can't be found all ye damn hood ratz..",
+                             "ah can't find dat level what 'chew trippin foo'",
+                             "Sorry,Found, that level cannot be.",
+                             "I am like, so sorry but that is like, ya know, not a level that exists.",
+                             "I im surry buot zeet is nut a lefel zeet ixists. Bork Bork Bork!",
+                             "I am my most humble apology but yond is not a level yond exists.",
+                             "I's gotss'ta be so'ry but ah' duzn't seem t'be able t'find dat level fo' ya'",
+                             "I'm bloody well sorry, I don't seem ter be able ter locate that level"]
+            print(random.choice(errorMessages))
 
     def save(self):
         if self.levelName == "":
