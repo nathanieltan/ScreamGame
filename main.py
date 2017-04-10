@@ -3,7 +3,7 @@ from pygame.locals import *
 import os, sys
 from environment import *
 from player import *
-from voiceAmplitude.py import *
+
 clock = pygame.time.Clock()
 dt = None
 displayDebug = False  # variable that controls whether debug info is being displayed
