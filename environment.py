@@ -70,10 +70,21 @@ class Block(pygame.sprite.Sprite):
 
 class FallingObject(pygame.sprite.Sprite):
     """ Object that falls from ceiling kills character """
-    def __init__(self,x,y):
+    def __init__(self,x,y,game):
         pygame.sprite.Sprite.__init__(self)
-        pass
+        image = pygame.image.load('images/death.png')
+        self.game = game
+        self.gameheight = self.game.height
+        self.image = image.convert()
+        self.iage = image.convert_alpha()
+        self.rect = image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
 
+    def update(self):
+        self.rect.y += 64
+        if self.rect.y > self.gameheight:
+            self.kill()
 
 class Fan(pygame.sprite.Sprite):
     """ Fan that propells character into ceiling, killing him """
