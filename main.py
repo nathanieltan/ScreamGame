@@ -45,7 +45,9 @@ class ScreamGameMain():
                             displayDebug = False
                         else:
                             displayDebug = True
-
+            if check_Trigger():
+                character.vel.y = -350
+                character.applyGravity = True
             self.draw()
             self.update()
 
