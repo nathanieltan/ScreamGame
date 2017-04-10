@@ -4,9 +4,11 @@ import os, sys
 from environment import *
 from player import *
 from voiceAmplitude import *
+
 clock = pygame.time.Clock()
 dt = None
 displayDebug = False  # variable that controls whether debug info is being displayed
+
 
 class ScreamGameMain():
     def __init__(self, width=1000, height=1000):
@@ -46,6 +48,7 @@ class ScreamGameMain():
             if check_trigger():
                 self.character.vel.y = -350
                 self.character.applyGravity = True
+
             self.draw()
             self.update()
 
