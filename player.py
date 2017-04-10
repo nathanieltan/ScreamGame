@@ -118,3 +118,6 @@ class Character(pygame.sprite.Sprite):
                 verticallyCollide = True
         if not verticallyCollide:
             self.applyGravity = True
+
+    def death():
+        pass
