@@ -45,13 +45,16 @@ class levelEditorMain():
                         self.save()
                     if keys[pygame.K_o]:
                         self.openLevel()
-
+                    if keys[pygame.K_BACKSPACE]:
+                        for item in self.elements.sprites():
+                            if item.rect.topleft == (self.boxLeft,self.boxUp):
+                                item.kill()
             self.draw()
 
             pygame.display.update()
 
     def openLevel(self):
-        self.levelName = input("What Level Would You Like To Edit?")
+        self.levelName = input("Type The Name Of The Level You Would Like To Edit: ")
         try:
             editingLevel = Level(self.levelName)
             self.elements.add(editingLevel.allSprites)
@@ -90,7 +93,7 @@ class levelEditorMain():
         ground = []
         for item in self.elements.sprites():
             if type(item)==Character:
-                character.append(item.rect.x - item.rect.width/2)
+                character.append(item.rect.x + item.rect.width/2)
                 character.append(item.rect.y + item.rect.height)
             if type(item)==Block:
                 blocks.append([item.rect.x,item.rect.y])
