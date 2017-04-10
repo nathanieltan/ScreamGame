@@ -4,7 +4,6 @@ import scipy.io.wavfile as wav
 import matplotlib.pyplot as plt
 import wave
 import sys
-import numpy as np
 import pylab as pl
 import time
 
@@ -14,14 +13,13 @@ CHANNELS = 2
 RATE = 44100
 RECORD_SECONDS = .5
 WAVE_OUTPUT_FILENAME = "output.wav"
-
+THRESHOLD = 0
 p = pyaudio.PyAudio()
 
-THRESHOLD = 9000
 trigger = False
 
 
-def record():
+def record(record_seconds):
     """
     Records audio and returns frames to be saved to wav file
     """
@@ -32,13 +30,13 @@ def record():
                     input=True,
                     frames_per_buffer=CHUNK)
 
-    print("* recording")
+    print("*RECORDING")
 
-    for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+    for i in range(0, int(RATE / CHUNK * record_seconds)):
         data = stream.read(CHUNK)
         frames.append(data)
 
-    print("* done recording")
+    print("*DONE RECORDING")
 
     stream.close()
 
@@ -83,13 +81,31 @@ def maxAmplitude(wave_file):
     return np.amax(data[:, 0])
 
 
+def calibration():
+    """
+    takes sample of shouting 3 times,
+    sets the average to be the threshold value
+    """
+    global THRESHOLD
+    shout_input = []
+    print("Starting Calibration...")
+
+    for i in range(3):
+        print("Please SHOUT")
+        save(record(3))
+        shout_input.append(maxAmplitude(WAVE_OUTPUT_FILENAME))
+        print("Saving...")
+    THRESHOLD = np.mean(shout_input)
+    print("Done calibrating. Threshold set to: {}". format(THRESHOLD))
+
+
 def check_trigger():
     """
     Check to see if audio input goes above threshold,
     returns bool
     """
     global trigger
-    save(record())
+    save(record(RECORD_SECONDS))
     max_amp = maxAmplitude(WAVE_OUTPUT_FILENAME)
 
     print("Max Amplitude: {}".format(max_amp))
@@ -99,6 +115,7 @@ def check_trigger():
 
 
 if __name__ == "__main__":
+    calibration()
     for i in range(20):  # records for 10 seconds
         if check_trigger():
             print('FALL')
