@@ -11,13 +11,17 @@ dt = None
 displayDebug = False  # variable that controls whether debug info is being displayed
 
 
-class ScreamGameMain():
+class ScreamGameMain(threading.Thread):
     def __init__(self, width=1000, height=1000):
+        threading.Thread.__init__(self)
         self.width = width
         self.height = height
         pygame.init()
         # Create the screen
         self.screen = pygame.display.set_mode((self.width, self.height))
+
+    def run(self):
+        self.MainLoop()
 
     def MainLoop(self):
         """ main loop of game """
@@ -86,4 +90,4 @@ class ScreamGameMain():
 
 if __name__ == "__main__":
     MainWindow = ScreamGameMain()
-    MainWindow.MainLoop()
+    MainWindow.start()
