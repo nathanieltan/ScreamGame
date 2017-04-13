@@ -3,10 +3,12 @@ from pygame.locals import *
 import os, sys
 from environment import *
 from player import *
-from voiceAmplitude.py import *
+from voiceAmplitude import *
+
 clock = pygame.time.Clock()
 dt = None
 displayDebug = False  # variable that controls whether debug info is being displayed
+
 
 class ScreamGameMain():
     def __init__(self, width=1000, height=1000):
@@ -21,6 +23,7 @@ class ScreamGameMain():
         self.loadSprites()
         global displayDebug
         global dt
+        calibration()
         # allow player to hold down keys for continous input
         pygame.key.set_repeat(50, 100)
 
@@ -42,7 +45,9 @@ class ScreamGameMain():
                             displayDebug = False
                         else:
                             displayDebug = True
-
+            if check_Trigger():
+                character.vel.y = -350
+                character.applyGravity = True
             self.draw()
             self.update()
 
