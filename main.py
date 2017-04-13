@@ -23,7 +23,7 @@ class ScreamGameMain():
         self.loadSprites()
         global displayDebug
         global dt
-        calibration()
+        # calibration()
         # allow player to hold down keys for continous input
         pygame.key.set_repeat(50, 100)
 
@@ -45,9 +45,9 @@ class ScreamGameMain():
                             displayDebug = False
                         else:
                             displayDebug = True
-            if check_Trigger():
-                character.vel.y = -350
-                character.applyGravity = True
+            #if check_Trigger():
+            #    character.vel.y = -350
+            #    character.applyGravity = True
             self.draw()
             self.update()
 
@@ -74,7 +74,7 @@ class ScreamGameMain():
         self.character = Character(self.lvl.playerSpawn)
 
         self.gameSprites = pygame.sprite.Group(self.character, self.lvl.groundList,
-                                               self.lvl.blockList)
+                                               self.lvl.blockList,self.lvl.fallingObjectList)
         # Sprite Group for environment sprites that won't kill the character
         self.safeEnviron = pygame.sprite.Group(self.lvl.blockList, self.lvl.groundList)
         # Sprite Group for environment sprites that will kill the character

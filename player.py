@@ -67,14 +67,13 @@ class Character(pygame.sprite.Sprite):
         self.accel.x += self.vel.x * friction  # applying friction
         self.pos.x += self.vel.x * dt + 0.5 * self.accel.x * (dt ** 2)
         self.rect.midbottom = (self.pos)
-        self.collide(environment,self.vel.x,0)
+        self.collide(environment, self.vel.x, 0)
 
         # y direction of movement
         self.pos.y += self.vel.y * dt + 0.5 * self.accel.y * (dt ** 2)
 
-
         self.rect.midbottom = (self.pos)
-        self.collide(environment,0,self.vel.y)
+        self.collide(environment, 0, self.vel.y)
 
         # update velocity
         self.vel += self.accel * dt
@@ -99,7 +98,8 @@ class Character(pygame.sprite.Sprite):
             if not facingRight:  # makes sure the sprite is facing the correct direction
                 self.image = pygame.transform.flip(self.image, True, False)
             self.image = pygame.transform.scale2x(self.image)
-    def collide(self,environment, xvel, yvel):
+
+    def collide(self, environment, xvel, yvel):
         verticallyCollide = False
         for element in environment.sprites():
             if element.rect.colliderect(self.rect):
@@ -108,7 +108,7 @@ class Character(pygame.sprite.Sprite):
                 if xvel < 0:
                     self.rect.left = element.rect.right
                 if yvel > 0:
-                    self.rect.midbottom = (self.pos.x,element.rect.top)
+                    self.rect.midbottom = (self.pos.x, element.rect.top)
                     self.applyGravity = False
                     self.vel.y = 0
                 if yvel < 0:
