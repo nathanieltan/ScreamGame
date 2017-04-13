@@ -89,21 +89,21 @@ class FallingObject(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-    def update(self, dt, environmentSprites,deathElements):
+    def update(self, dt, environmentSprites, deathElements):
         self.rect.y += 64*dt
-        if self.rect.y > self.gameheight:
-            self.kill()
+        if pygame.sprite.spritecollideany(self, environmentSprites):
+            self.rect.y += 0
 
 
 class Fan(pygame.sprite.Sprite):
     """ Fan that propells character into ceiling, killing him """
-    def __init__(self,x,y):
+    def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         pass
 
 
 class Spikes(pygame.sprite.Sprite):
     """ spikes that pop up from ground and kill character """
-    def __init__(self,x,y):
+    def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         pass
