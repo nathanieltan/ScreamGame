@@ -82,6 +82,7 @@ class ScreamGameMain():
         # Sprite Group for all environment
         self.allEnviron = pygame.sprite.Group(self.lvl.blockList,self.lvl.groundList)
 
+
 if __name__ == "__main__":
     MainWindow = ScreamGameMain()
     MainWindow.MainLoop()
