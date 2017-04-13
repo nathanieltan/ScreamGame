@@ -29,12 +29,13 @@ class Character(pygame.sprite.Sprite):
         self.animationFrames = 0  # counts the amount of frames a sprite has been displayed
         self.animationState = 0
 
-    def update(self, dt, environment):
+    def update(self, dt, environment,deathElements):
         """ update the character """
         global facingRight
 
         self.updateAnimation()
 
+        self.checkForDeath(deathElements)
         # character keyboard inputs
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
@@ -98,6 +99,10 @@ class Character(pygame.sprite.Sprite):
             if not facingRight:  # makes sure the sprite is facing the correct direction
                 self.image = pygame.transform.flip(self.image, True, False)
             self.image = pygame.transform.scale2x(self.image)
+
+    def checkForDeath(self,deathElements):
+        if pygame.sprite.spritecollideany(self,deathElements):
+            self.kill()
 
     def collide(self, environment, xvel, yvel):
         verticallyCollide = False

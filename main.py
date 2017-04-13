@@ -54,7 +54,7 @@ class ScreamGameMain():
     def update(self):
         global dt
 
-        self.gameSprites.update(dt,self.allEnviron)
+        self.gameSprites.update(dt,self.allEnviron,self.deathElements)
 
     def draw(self):
         self.screen.blit(self.background, (0, 0))
@@ -78,7 +78,7 @@ class ScreamGameMain():
         # Sprite Group for environment sprites that won't kill the character
         self.safeEnviron = pygame.sprite.Group(self.lvl.blockList, self.lvl.groundList)
         # Sprite Group for environment sprites that will kill the character
-
+        self.deathElements = pygame.sprite.Group(self.lvl.fallingObjectList)
         # Sprite Group for all environment
         self.allEnviron = pygame.sprite.Group(self.lvl.blockList,self.lvl.groundList)
 

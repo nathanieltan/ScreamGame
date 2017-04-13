@@ -89,7 +89,7 @@ class FallingObject(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-    def update(self, dt, environmentSprites):
+    def update(self, dt, environmentSprites,deathElements):
         self.rect.y += 64*dt
         if self.rect.y > self.gameheight:
             self.kill()
