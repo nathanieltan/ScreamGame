@@ -6,6 +6,8 @@ import wave
 import sys
 import pylab as pl
 import time
+import threading
+import queue
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
@@ -15,6 +17,7 @@ RECORD_SECONDS = .5
 WAVE_OUTPUT_FILENAME = "output.wav"
 THRESHOLD = 0
 p = pyaudio.PyAudio()
+recordingQueue = queue.Queue()
 
 trigger = False
 
@@ -113,7 +116,20 @@ def check_trigger():
         trigger = True
     return trigger
 
+class recordingThread(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
+        self._stop = threading.Event()
 
+    def stop(self):
+        self._stop.set()
+
+    def run(self):
+        calibration()
+        while(1):
+            if check_trigger():
+                if recordingQueue.empty():
+                    recordingQueue.put(True)
 if __name__ == "__main__":
     calibration()
     for i in range(20):  # records for 10 seconds

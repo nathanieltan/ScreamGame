@@ -5,6 +5,7 @@ from environment import *
 from player import *
 from voiceAmplitude import *
 import threading
+import queue
 
 clock = pygame.time.Clock()
 dt = None
@@ -19,7 +20,8 @@ class ScreamGameMain(threading.Thread):
         pygame.init()
         # Create the screen
         self.screen = pygame.display.set_mode((self.width, self.height))
-
+        self.recording = recordingThread()
+        self.recording.start()
     def run(self):
         self.MainLoop()
 
@@ -41,6 +43,7 @@ class ScreamGameMain(threading.Thread):
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    self.recording.stop()
                     pygame.display.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
@@ -59,6 +62,10 @@ class ScreamGameMain(threading.Thread):
     def update(self):
         global dt
 
+        if not recordingQueue.empty():
+            if not self.character.applyGravity:
+                self.character.vel.y = -350
+                self.character.applyGravity = True
         self.gameSprites.update(dt,self.allEnviron,self.deathElements)
 
     def draw(self):
