@@ -3,11 +3,12 @@ from pygame.locals import*
 import ast
 vec = pygame.math.Vector2
 
+
 class Level():
     """
     Generic Level Class
     """
-    def __init__(self,levelName):
+    def __init__(self, levelName):
         self.groundList = pygame.sprite.Group()
         self.blockList = pygame.sprite.Group()
         self.deathList = pygame.sprite.Group()
@@ -15,7 +16,7 @@ class Level():
         self.screenShift = 0
         self.playerSpawn = vec(0,0)
 
-        f = open("levels/%s.txt" %levelName)
+        f = open("levels/%s.txt" % levelName)
 
         text = "".join(f.read().split())  # get's rid of all whitespace
 
@@ -36,24 +37,26 @@ class Level():
         fallingObjectPositions = ast.literal_eval(text[fallingStart+14:fallingEnd])
 
         for position in groundPositions:
-            ground = GroundBlock(position[0],position[1])
+            ground = GroundBlock(position[0], position[1])
             self.groundList.add(ground)
 
         for position in blockPositions:
-            block = Block(position[0],position[1])
+            block = Block(position[0], position[1])
             self.blockList.add(block)
 
         for position in fallingObjectPositions:
-            fallingObject = FallingObject(position[0],position[1])
+            fallingObject = FallingObject(position[0], position[1])
             self.fallingObjectList.add(fallingObject)
 
-        self.allSprites = pygame.sprite.Group(self.blockList,self.deathList,self.groundList,self.fallingObjectList)
-        self.playerSpawn = vec(playerSpawnList[0],playerSpawnList[1])  # the initial position for the player
+        self.allSprites = pygame.sprite.Group(self.blockList, self.deathList, self.groundList, self.fallingObjectList)
+        self.playerSpawn = vec(playerSpawnList[0], playerSpawnList[1])  # the initial position for the player
+
     def shiftScreen(self, shift_x):
         """ controls side scrolling of screen """
 
+
 class GroundBlock(pygame.sprite.Sprite):
-    def __init__(self,x,y):
+    def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         image = pygame.image.load('images/ground.png')
 
@@ -84,7 +87,7 @@ class FallingObject(pygame.sprite.Sprite):
         image = pygame.image.load('images/death.png')
         self.gameheight = 1000
         self.image = image.convert()
-        self.iage = image.convert_alpha()
+        self.image = image.convert_alpha()
         self.rect = image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -95,15 +98,28 @@ class FallingObject(pygame.sprite.Sprite):
             self.rect.y += 0
 
 
-class Fan(pygame.sprite.Sprite):
+class Wind(pygame.sprite.Sprite):
     """ Fan that propells character into ceiling, killing him """
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        pass
+        image = pygame.image.load('images/wind.png')
+        self.image = image.convert()
+        self.image = image.convert_alpha()
+        self.rect = image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+    def update(self, dt, environmentSprites, deathElements):
+        self.rect.y += -64*dt
 
 
 class Spikes(pygame.sprite.Sprite):
     """ spikes that pop up from ground and kill character """
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        pass
+        image = pygame.image.load('images/Spike.png')
+        self.image = image.convert()
+        self.image = image.convert_alpha()
+        self.rect = image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
