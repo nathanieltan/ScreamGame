@@ -103,6 +103,7 @@ class recordingThread(threading.Thread):
         self._stop.set()
 
     def run(self):
+        global trigger
         calibration()
         while(1):
             if check_trigger(open_stream()):
