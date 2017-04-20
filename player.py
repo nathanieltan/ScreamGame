@@ -10,7 +10,7 @@ friction = -3
 class Character(pygame.sprite.Sprite):
     """ make main player character """
 
-    def __init__(self,spawnPos):
+    def __init__(self, spawnPos):
         pygame.sprite.Sprite.__init__(self)
         image = pygame.image.load('images/hambo_stand.png')
         self.image = image.convert()
@@ -29,13 +29,12 @@ class Character(pygame.sprite.Sprite):
         self.animationFrames = 0  # counts the amount of frames a sprite has been displayed
         self.animationState = 0
 
-    def update(self, dt, environment,deathElements):
+    def update(self, dt, environment):
         """ update the character """
         global facingRight
 
         self.updateAnimation()
 
-        self.checkForDeath(deathElements)
         # character keyboard inputs
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
@@ -56,7 +55,7 @@ class Character(pygame.sprite.Sprite):
             self.vel.y = -350
             self.applyGravity = True
 
-        #self.applyGravity = True
+        # self.applyGravity = True
 
         # Does gravity
         if self.applyGravity:
@@ -79,6 +78,7 @@ class Character(pygame.sprite.Sprite):
         # update velocity
         self.vel += self.accel * dt
         self.vel.x = int(self.vel.x)
+
     def updateAnimation(self):
         """ walking animation"""
         # list of walking animation sprites
@@ -99,10 +99,6 @@ class Character(pygame.sprite.Sprite):
             if not facingRight:  # makes sure the sprite is facing the correct direction
                 self.image = pygame.transform.flip(self.image, True, False)
             self.image = pygame.transform.scale2x(self.image)
-
-    def checkForDeath(self,deathElements):
-        if pygame.sprite.spritecollideany(self,deathElements):
-            self.kill()
 
     def collide(self, environment, xvel, yvel):
         verticallyCollide = False
