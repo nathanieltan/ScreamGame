@@ -29,11 +29,13 @@ class Character(pygame.sprite.Sprite):
         self.animationFrames = 0  # counts the amount of frames a sprite has been displayed
         self.animationState = 0
 
-    def update(self, dt, environment):
+    def update(self, dt, environment,deathElements):
         """ update the character """
         global facingRight
 
         self.updateAnimation()
+
+        self.checkForDeath(deathElements)
 
         # character keyboard inputs
         keys = pygame.key.get_pressed()
@@ -79,6 +81,9 @@ class Character(pygame.sprite.Sprite):
         self.vel += self.accel * dt
         self.vel.x = int(self.vel.x)
 
+    def checkForDeath(self,deathElements):
+        if pygame.sprite.spritecollideany(self,deathElements):
+            self.kill
     def updateAnimation(self):
         """ walking animation"""
         # list of walking animation sprites

@@ -13,6 +13,9 @@ class Level():
         self.blockList = pygame.sprite.Group()
         self.deathList = pygame.sprite.Group()
         self.fallingObjectList = pygame.sprite.Group()
+        self.spikesList = pygame.sprite.Group()
+        self.windList = pygame.sprite.Group()
+
         self.screenShift = 0
         self.playerSpawn = vec(0,0)
 
@@ -29,12 +32,18 @@ class Level():
         blockStart = text.find('Block:')
         blockEnd = text.find('FallingObject:')
         fallingStart = text.find('FallingObject:')
-        fallingEnd = len(text)+1
+        fallingEnd = text.find('Spikes:')
+        spikesStart = text.find('Spikes:')
+        spikesEnd = text.find('Wind:')
+        windStart = text.find('Wind:')
+        windEnd = len(text)+1
 
         playerSpawnList = ast.literal_eval(text[playerStart+7:playerEnd])
         groundPositions = ast.literal_eval(text[groundStart+7:groundEnd])
         blockPositions = ast.literal_eval(text[blockStart+6:blockEnd])
         fallingObjectPositions = ast.literal_eval(text[fallingStart+14:fallingEnd])
+        spikesPositions = ast.literal_eval(text[spikesStart+7:spikesEnd])
+        windPositions = ast.literal_eval(text[windStart+5:windEnd])
 
         for position in groundPositions:
             ground = GroundBlock(position[0], position[1])
@@ -48,7 +57,15 @@ class Level():
             fallingObject = FallingObject(position[0], position[1])
             self.fallingObjectList.add(fallingObject)
 
-        self.allSprites = pygame.sprite.Group(self.blockList, self.deathList, self.groundList, self.fallingObjectList)
+        for position in spikesPositions:
+            spikes = Spikes(position[0],position[1])
+            self.spikesList.add(spikes)
+
+        for position in windPositions:
+            wind = Wind(position[0],position[1])
+            self.windList.add(wind)
+
+        self.allSprites = pygame.sprite.Group(self.blockList, self.deathList, self.groundList,self.fallingObjectList,self.windList,self.spikesList)
         self.playerSpawn = vec(playerSpawnList[0], playerSpawnList[1])  # the initial position for the player
 
     def shiftScreen(self, shift_x):
@@ -110,7 +127,8 @@ class Wind(pygame.sprite.Sprite):
         self.rect.y = y
 
     def update(self, dt, environmentSprites, deathElements):
-        self.rect.y += -64*dt
+        #self.rect.y += -64*dt
+        pass
 
 
 class Spikes(pygame.sprite.Sprite):
