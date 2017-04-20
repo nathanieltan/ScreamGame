@@ -105,7 +105,8 @@ class recordingThread(threading.Thread):
     def run(self):
         calibration()
         while(1):
-            if check_trigger():
+            if check_trigger(open_stream()):
+                trigger = False
                 if recordingQueue.empty():
                     recordingQueue.put(True)
 
