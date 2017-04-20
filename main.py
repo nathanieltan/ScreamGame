@@ -64,6 +64,7 @@ class ScreamGameMain(threading.Thread):
 
         if not recordingQueue.empty():
             if not self.character.applyGravity:
+                recordingQueue.get()
                 self.character.vel.y = -350
                 self.character.applyGravity = True
 
