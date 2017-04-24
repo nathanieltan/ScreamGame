@@ -7,13 +7,14 @@ from voiceAmplitude import *
 import threading
 import queue
 
+i = 0
 clock = pygame.time.Clock()
 dt = None
 displayDebug = False  # variable that controls whether debug info is being displayed
 
 
 class ScreamGameMain(threading.Thread):
-    def __init__(self, width=1000, height=1000):
+    def __init__(self, width=1200, height=768):
         threading.Thread.__init__(self)
         self.width = width
         self.height = height
@@ -22,6 +23,7 @@ class ScreamGameMain(threading.Thread):
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.recording = recordingThread()
         self.recording.start()
+
     def run(self):
         self.MainLoop()
 
@@ -62,15 +64,19 @@ class ScreamGameMain(threading.Thread):
     def update(self):
         global dt
 
+        # Trigger for falling objects
+        global i
+        fall = [death for death in self.fallingObjects]
         if not recordingQueue.empty():
-            if not self.character.applyGravity:
-                recordingQueue.get()
-                self.character.vel.y = -350
-                self.character.applyGravity = True
+            recordingQueue.get()
+            if i <= len(fall) -1:
+                fall[i].trigger()
+                i += 1
 
         self.gameSprites.update(dt,self.allEnviron,self.deathElements)
 
     def draw(self):
+        global amp
         self.screen.blit(self.background, (0, 0))
         self.gameSprites.draw(self.screen)
 
@@ -81,6 +87,7 @@ class ScreamGameMain(threading.Thread):
                                    (self.character.applyGravity,int(self.character.vel.x),int(self.character.vel.y)),1,(0,0,0))
                 textpos = text.get_rect(top=100, centerx = self.screen.get_width()/2)
                 self.screen.blit(text, textpos)
+
         pygame.display.flip()
 
     def loadSprites(self):
@@ -92,9 +99,11 @@ class ScreamGameMain(threading.Thread):
         # Sprite Group for environment sprites that won't kill the character
         self.safeEnviron = pygame.sprite.Group(self.lvl.blockList, self.lvl.groundList)
         # Sprite Group for environment sprites that will kill the character
-        self.deathElements =pygame.sprite.Group(self.lvl.fallingObjectList,self.lvl.windList,self.lvl.spikesList)
+        self.deathElements = pygame.sprite.Group(self.lvl.fallingObjectList,self.lvl.windList,self.lvl.spikesList)
         # Sprite Group for all environment
         self.allEnviron = pygame.sprite.Group(self.lvl.blockList,self.lvl.groundList)
+
+        self.fallingObjects = pygame.sprite.Group(self.lvl.fallingObjectList)
 
 
 if __name__ == "__main__":

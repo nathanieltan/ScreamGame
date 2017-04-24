@@ -81,11 +81,12 @@ def calibration():
     """
     global THRESHOLD
     shout_input = []
+    time.sleep(2)
     print("Starting Calibration...")
 
     for i in range(3):
         print("Please SHOUT")
-        time.sleep(2)
+        time.sleep(1)
         print("Recording")
         for i in range(50):
             shout_input.append(get_rms(open_stream()))
@@ -104,6 +105,8 @@ class recordingThread(threading.Thread):
 
     def run(self):
         global trigger
+        global amp
+
         calibration()
         while(1):
             if check_trigger(open_stream()):

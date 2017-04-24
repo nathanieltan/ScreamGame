@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import*
 import ast
 vec = pygame.math.Vector2
-
+gravity = 30000
 
 class Level():
     """
@@ -108,11 +108,24 @@ class FallingObject(pygame.sprite.Sprite):
         self.rect = image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.applyGravity = False
+        self.vel = vec(0, 0)
+        self.accel = vec(0, 0)
+
+    def trigger(self):
+        self.applyGravity = True
 
     def update(self, dt, environmentSprites, deathElements):
-        self.rect.y += 64*dt
+        if self.applyGravity:
+            self.accel = vec(0, gravity*dt)
         if pygame.sprite.spritecollideany(self, environmentSprites):
-            self.rect.y += 0
+            self.accel.y = 0
+            self.vel.y = 0
+
+        self.rect.y += self.vel.y * dt + 0.5 * self.accel.y * (dt ** 2)
+        # update velocity
+        self.vel += self.accel * dt
+        self.vel.x = int(self.vel.x)
 
 
 class Wind(pygame.sprite.Sprite):

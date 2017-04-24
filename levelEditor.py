@@ -4,8 +4,10 @@ import os, sys
 from environment import *
 from player import *
 import random
+
+
 class levelEditorMain():
-    def __init__(self, width=1900,height=1000):
+    def __init__(self, width=1900, height=768):
         self.width = width
         self.height = height
         pygame.init()
@@ -13,6 +15,7 @@ class levelEditorMain():
         self.screen = pygame.display.set_mode((self.width,self.height))
 
         self.levelName = ""
+
     def MainLoop(self):
         self.loadSprites()
 
@@ -131,6 +134,8 @@ class levelEditorMain():
         pygame.draw.lines(self.screen,(50,205,50),True,[(self.boxLeft,self.boxDown),(self.boxRight,self.boxDown),(self.boxRight,self.boxUp),(self.boxLeft,self.boxUp)],2)
     def loadSprites(self):
         self.elements = pygame.sprite.Group()
+
+
 if __name__ == "__main__":
     MainWindow = levelEditorMain()
     MainWindow.MainLoop()
