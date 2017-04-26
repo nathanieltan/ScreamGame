@@ -22,6 +22,7 @@ WAVE_OUTPUT_FILENAME = "output.wav"
 THRESHOLD = .02
 p = pyaudio.PyAudio()
 recordingQueue = queue.Queue()
+amplitudeQueue = queue.Queue()
 
 trigger = False
 
@@ -55,11 +56,10 @@ def open_stream():
 def check_trigger(block):
     global trigger
     amplitude = get_rms(block)
-    print(amplitude)
     if amplitude > THRESHOLD:
         trigger = True
 
-    return trigger
+    return trigger, amplitude
 
 
 def record(text=True):
@@ -105,14 +105,15 @@ class recordingThread(threading.Thread):
 
     def run(self):
         global trigger
-        global amp
 
         calibration()
         while(1):
-            if check_trigger(open_stream()):
+            check = check_trigger(open_stream())
+            if check[0]:
                 trigger = False
                 if recordingQueue.empty():
                     recordingQueue.put(True)
+            amplitudeQueue.put(check[1])
 
 
 if __name__ == "__main__":

@@ -80,6 +80,23 @@ class ScreamGameMain(threading.Thread):
         self.screen.blit(self.background, (0, 0))
         self.gameSprites.draw(self.screen)
 
+        if amplitudeQueue.empty():
+            amp = 0.00
+        else:
+            amp = amplitudeQueue.get()
+
+        height = -amp*1000
+        if height < -80:
+            height = -80
+        pygame.draw.rect(self.screen, (255, 255, 255), (25, 35, 100, 110))
+        pygame.draw.rect(self.screen, (0, 0, 255), (35, 120, 80, height))
+
+        if pygame.font:
+            font = pygame.font.Font(None, 24)
+            text = font.render("Amplitude", 1, (0, 0, 0))
+            textpos = text.get_rect(top=125, centerx=75)
+            self.screen.blit(text, textpos)
+
         if displayDebug:
             if pygame.font:
                 font = pygame.font.Font(None, 36)
