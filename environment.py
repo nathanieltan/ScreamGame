@@ -75,7 +75,6 @@ class Level():
             self.windList.add(wind)
 
         self.allSprites = pygame.sprite.Group(self.blockList, self.deathList, self.groundList, self.fallingObjectList, self.windList, self.spikesList)
-        self.nogroundSprites = pygame.sprite.Group(self.blockList, self.deathList, self.fallingObjectList, self.windList, self.spikesList)
         self.playerSpawn = vec(playerSpawnList[0], playerSpawnList[1])  # the initial position for the player
 
     def shiftScreen(self, shift_x):
@@ -165,10 +164,22 @@ class Wind(pygame.sprite.Sprite):
         self.rect = image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.applyGravity = True
+        self.vel = vec(0, 0)
+        self.accel = vec(0, 0)
 
     def update(self, dt, environmentSprites, deathElements):
-        self.rect.y += (-self.vel.y * dt + 0.5 * self.accel.y (dt ** 2_))
+        if self.applyGravity:
+            self.accel = vec(0, gravity*dt)
+        if pygame.sprite.spritecollideany(self, environmentSprites):
+            self.accel.y = 0
+            self.vel.y = 0
 
+        # self.rect.y += (-self.vel.y * dt + 0.5 * self.accel.y*(dt ** 2))
+        self.rect.y += -12
+        # update velocity
+        self.vel += self.accel * dt
+        self.vel.x = int(self.vel.x)
 
 
 class Spikes(pygame.sprite.Sprite):

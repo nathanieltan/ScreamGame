@@ -45,6 +45,8 @@ class levelEditorMain():
                         self.elements.add(Spikes(self.boxLeft,self.boxUp))
                     if keys[pygame.K_5]:
                         self.elements.add(Wind(self.boxLeft,self.boxUp))
+                    if keys[pygame.K_6]:
+                        self.elements.add(fakeGroundBlock(self.boxLeft,self.boxUp))
                     if keys[pygame.K_0]:
                         for item in self.elements.sprites():
                             if type(item)==Character:
@@ -103,6 +105,7 @@ class levelEditorMain():
         fallingObjects = []
         spikes = []
         wind = []
+        fake_ground = []
         for item in self.elements.sprites():
             if type(item)==Character:
                 character.append(item.rect.x + item.rect.width/2)
@@ -117,8 +120,10 @@ class levelEditorMain():
                 spikes.append([item.rect.x,item.rect.y])
             if type(item)==Wind:
                 wind.append([item.rect.x,item.rect.y])
+            if type(item)==fakeGroundBlock:
+                fake_ground.append([item.rect.x,item.rect.y])
 
-        f.write("Player: %s\nGround: %s\nBlock: %s\nFallingObject: %s\nSpikes: %s\nWind: %s"%(character,ground,blocks,fallingObjects,spikes,wind))
+        f.write("Player: %s\nGround: %s\nBlock: %s\nFallingObject: %s\nSpikes: %s\nWind: %s\nFake: %s"%(character,ground,blocks,fallingObjects,spikes,wind,fake_ground))
         f.close()
         print("Level has been save under %s" %self.levelName)
     def draw(self):
