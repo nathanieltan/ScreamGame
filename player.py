@@ -81,9 +81,10 @@ class Character(pygame.sprite.Sprite):
         self.vel += self.accel * dt
         self.vel.x = int(self.vel.x)
 
-    def checkForDeath(self,deathElements):
-        if pygame.sprite.spritecollideany(self,deathElements):
+    def checkForDeath(self, deathElements):
+        if pygame.sprite.spritecollideany(self, deathElements):
             self.kill
+
     def updateAnimation(self):
         """ walking animation"""
         # list of walking animation sprites
@@ -124,6 +125,3 @@ class Character(pygame.sprite.Sprite):
                 verticallyCollide = True
         if not verticallyCollide:
             self.applyGravity = True
-
-    def death():
-        pass

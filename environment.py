@@ -37,7 +37,8 @@ class Level():
         fallingEnd = text.find('Spikes:')
         spikesStart = text.find('Spikes:')
         spikesEnd = text.find('Wind:')
-        windStart = len(text)+1
+        windStart = text.find('Wind:')
+        windEnd = len(text)+1
         # fakeStart = text.find('Fake:')
         # fakeEnd = len(text)+1
 
