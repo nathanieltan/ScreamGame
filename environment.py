@@ -167,7 +167,7 @@ class Wind(pygame.sprite.Sprite):
         self.rect.y = y
 
     def update(self, dt, environmentSprites, deathElements):
-        self.rect.y += (-self.vel.y * dt + 0.5 * self.accel.y (dt ** 2_))
+        self.rect.y += (-self.vel.y * dt + 0.5 * self.accel.y (dt ** 2))
 
 
 
