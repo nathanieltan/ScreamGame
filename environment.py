@@ -4,12 +4,14 @@ import ast
 vec = pygame.math.Vector2
 gravity = 30000
 
+
 class Level():
     """
     Generic Level Class
     """
     def __init__(self, levelName):
         self.groundList = pygame.sprite.Group()
+        self.fakeGroundList = pygame.sprite.Group()
         self.blockList = pygame.sprite.Group()
         self.deathList = pygame.sprite.Group()
         self.fallingObjectList = pygame.sprite.Group()
@@ -17,7 +19,7 @@ class Level():
         self.windList = pygame.sprite.Group()
 
         self.screenShift = 0
-        self.playerSpawn = vec(0,0)
+        self.playerSpawn = vec(0, 0)
 
         f = open("levels/%s.txt" % levelName)
 
@@ -36,10 +38,13 @@ class Level():
         spikesStart = text.find('Spikes:')
         spikesEnd = text.find('Wind:')
         windStart = text.find('Wind:')
-        windEnd = len(text)+1
+        windEnd = text.find('Fake:')
+        fakeStart = text.find('Fake:')
+        fakeEnd = len(text)+1
 
         playerSpawnList = ast.literal_eval(text[playerStart+7:playerEnd])
         groundPositions = ast.literal_eval(text[groundStart+7:groundEnd])
+        fakeGroundPositions = ast.literal_eval(text[fakeStart+5:fakeEnd])
         blockPositions = ast.literal_eval(text[blockStart+6:blockEnd])
         fallingObjectPositions = ast.literal_eval(text[fallingStart+14:fallingEnd])
         spikesPositions = ast.literal_eval(text[spikesStart+7:spikesEnd])
@@ -48,6 +53,10 @@ class Level():
         for position in groundPositions:
             ground = GroundBlock(position[0], position[1])
             self.groundList.add(ground)
+
+        for position in fakeGroundPositions:
+            fakeGround = fakeGroundBlock(position[0], position[1])
+            self.fakeGroundList.add(fakeGround)
 
         for position in blockPositions:
             block = Block(position[0], position[1])
@@ -58,14 +67,15 @@ class Level():
             self.fallingObjectList.add(fallingObject)
 
         for position in spikesPositions:
-            spikes = Spikes(position[0],position[1])
+            spikes = Spikes(position[0], position[1])
             self.spikesList.add(spikes)
 
         for position in windPositions:
-            wind = Wind(position[0],position[1])
+            wind = Wind(position[0], position[1])
             self.windList.add(wind)
 
-        self.allSprites = pygame.sprite.Group(self.blockList, self.deathList, self.groundList,self.fallingObjectList,self.windList,self.spikesList)
+        self.allSprites = pygame.sprite.Group(self.blockList, self.deathList, self.groundList, self.fakeGroundList, self.fallingObjectList, self.windList, self.spikesList)
+        # self.nogroundSprites = pygame.sprite.Group(self.blockList, self.deathList, self.fakeGroundList, self.fallingObjectList, self.windList, self.spikesList)
         self.playerSpawn = vec(playerSpawnList[0], playerSpawnList[1])  # the initial position for the player
 
     def shiftScreen(self, shift_x):
@@ -82,6 +92,23 @@ class GroundBlock(pygame.sprite.Sprite):
         self.rect = image.get_rect()
         self.rect.x = x
         self.rect.y = y
+
+
+class fakeGroundBlock(pygame.sprite.Sprite):
+    """ Fake Ground that disappears when the player touches"""
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        image = pygame.image.load('images/fake_ground.png')
+
+        self.image = image.convert()
+        self.image = image.convert_alpha()
+        self.rect = image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+    def update(self, environmentSprites):
+        if pygame.sprite.spritecollideany(self, environmentSprites):
+            self.kill
 
 
 class Block(pygame.sprite.Sprite):
@@ -140,7 +167,7 @@ class Wind(pygame.sprite.Sprite):
         self.rect.y = y
 
     def update(self, dt, environmentSprites, deathElements):
-        #self.rect.y += -64*dt
+        # self.rect.y += -self.vel.y * dt + -0.5* self.accel.y (dt ** 2_)
         pass
 
 
