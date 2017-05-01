@@ -83,7 +83,7 @@ class Character(pygame.sprite.Sprite):
 
     def checkForDeath(self, deathElements):
         if pygame.sprite.spritecollideany(self, deathElements):
-            self.kill
+            self.kill()
 
     def updateAnimation(self):
         """ walking animation"""
