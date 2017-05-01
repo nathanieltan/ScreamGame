@@ -44,11 +44,11 @@ class Level():
 
         playerSpawnList = ast.literal_eval(text[playerStart+7:playerEnd])
         groundPositions = ast.literal_eval(text[groundStart+7:groundEnd])
-        fakeGroundPositions = ast.literal_eval(text[fakeStart+5:fakeEnd])
         blockPositions = ast.literal_eval(text[blockStart+6:blockEnd])
         fallingObjectPositions = ast.literal_eval(text[fallingStart+14:fallingEnd])
         spikesPositions = ast.literal_eval(text[spikesStart+7:spikesEnd])
         windPositions = ast.literal_eval(text[windStart+5:windEnd])
+        fakeGroundPositions = ast.literal_eval(text[fakeStart+5:fakeEnd])
 
         for position in groundPositions:
             ground = GroundBlock(position[0], position[1])
@@ -75,6 +75,7 @@ class Level():
             self.windList.add(wind)
 
         self.allSprites = pygame.sprite.Group(self.blockList, self.deathList, self.groundList, self.fallingObjectList, self.windList, self.spikesList)
+        self.fakeGRoudSprites = pygame.sprite.Group(self.fakeGroundList)
         self.playerSpawn = vec(playerSpawnList[0], playerSpawnList[1])  # the initial position for the player
 
     def shiftScreen(self, shift_x):
@@ -105,9 +106,9 @@ class fakeGroundBlock(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-    def update(self, nogroundSprites):
-        if pygame.sprite.spritecollideany(self, nogroundSprites):
-            self.kill
+    # def update(self, nogroundSprites):
+    #     if pygame.sprite.spritecollideany(self, nogroundSprites):
+    #         self.kill
 
 
 class Block(pygame.sprite.Sprite):
