@@ -48,9 +48,10 @@ For the player controlling the character: Use the arrow keys to move (left and r
 
 ## **Attributions:**
 
-Voice control:
-http://sharewebegin.blogspot.com/2013/07/record-from-mic-python.html 
+_Voice control:_
+[http://sharewebegin.blogspot.com/2013/07/record-from-mic-python.html]
+[https://people.csail.mit.edu/hubert/pyaudio/docs/]
 
-Neural network:
-http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/ 
-http://neuralnetworksanddeeplearning.com/chap1.html 
+_Neural network:_
+[http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/]
+[http://neuralnetworksanddeeplearning.com/chap1.html]
