@@ -108,7 +108,7 @@ class ScreamGameMain(threading.Thread):
         pygame.display.flip()
 
     def loadSprites(self):
-        self.lvl = Level("level2")
+        self.lvl = Level("level3")
         self.character = Character(self.lvl.playerSpawn)
 
         self.gameSprites = pygame.sprite.Group(self.character, self.lvl.groundList,
