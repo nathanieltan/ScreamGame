@@ -23,6 +23,7 @@ class ScreamGameMain(threading.Thread):
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.recording = recordingThread()
         self.recording.start()
+        self.gameState = 0 # 0 is playing game, 1 is death screen
 
     def run(self):
         self.MainLoop()
@@ -38,6 +39,8 @@ class ScreamGameMain(threading.Thread):
 
         self.background = pygame.image.load('images/clouds.jpg')
         self.background = self.background.convert()
+
+        self.deathScreen = pygame.image.load('images/deathScreen.png')
 
         while 1:
             dtime_ms = clock.tick(60)  # gets the tick time in milliseconds
@@ -55,10 +58,21 @@ class ScreamGameMain(threading.Thread):
                             displayDebug = False
                         else:
                             displayDebug = True
+                    if keys[pygame.K_RETURN]:
+                        if self.gameState == 1:
+                            print("test")
+                            self.gameState = 0
+                            for sprite in self.gameSprites.sprites():
+                                sprite.kill()
+                            self.loadSprites()
             #if check_Trigger():
             #    character.vel.y = -350
             #    character.applyGravity = True
-            self.draw()
+            print(self.gameState)
+            if self.gameState == 0:
+                self.drawGame()
+            elif self.gameState == 1:
+                self.drawDeathScreen()
             self.update()
 
     def update(self):
@@ -67,15 +81,23 @@ class ScreamGameMain(threading.Thread):
         # Trigger for falling objects
         global i
         fall = [death for death in self.fallingObjects]
+
         if not recordingQueue.empty():
             recordingQueue.get()
             if i <= len(fall) -1:
                 fall[i].trigger()
                 i += 1
 
+        for sprite in self.gameSprites.sprites():
+            pass
+            if sprite.rect.top > self.height:
+                sprite.kill()
+
+        if not self.character.alive():
+            self.gameState = 1
         self.gameSprites.update(dt,self.allEnviron,self.deathElements)
 
-    def draw(self):
+    def drawGame(self):
         global amp
         self.screen.blit(self.background, (0, 0))
         self.gameSprites.draw(self.screen)
@@ -105,6 +127,9 @@ class ScreamGameMain(threading.Thread):
                 textpos = text.get_rect(top=100, centerx = self.screen.get_width()/2)
                 self.screen.blit(text, textpos)
 
+        pygame.display.flip()
+    def drawDeathScreen(self):
+        self.screen.blit(self.deathScreen,(0,0))
         pygame.display.flip()
 
     def loadSprites(self):
