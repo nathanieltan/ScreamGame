@@ -40,7 +40,11 @@ Run main.py with the following command in the terminal:
 $ python3 main.py
 ```
 
-The player controlling the environment must scream three times to calibrate (instructions on the terminal window), and then can continue with the game. Scream to activate the death traps. The person controlling the player can use the arrow keys to move and jump to the end of the level.
+For the player controlling the environment: Scream three times to calibrate (instructions on the terminal window). Continue on with game - you must scream to activate the death traps (that are located in the sky) to kill the player.
+
+
+For the player controlling the character: Use the arrow keys to move (left and right) or jump (up) across terrain and to avoid obstacles (air death traps, spikes, wind, and fake ground) to get to the end of the level (when the end of the screen is reached).
+
 
 ## **Attributions:**
 
