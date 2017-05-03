@@ -17,6 +17,7 @@ class Level():
         self.fallingObjectList = pygame.sprite.Group()
         self.spikesList = pygame.sprite.Group()
         self.windList = pygame.sprite.Group()
+        self.levelMark = []
 
         self.screenShift = 0
         self.playerSpawn = vec(0, 0)
@@ -40,7 +41,9 @@ class Level():
         windStart = text.find('Wind:')
         windEnd = text.find('Fake:')
         fakeStart = text.find('Fake:')
-        fakeEnd = len(text)+1
+        fakeEnd = text.find('LevelMark:')
+        levelMarkStart = text.find('LevelMark:')
+        levelMarkEnd = len(text)+1
 
         playerSpawnList = ast.literal_eval(text[playerStart+7:playerEnd])
         groundPositions = ast.literal_eval(text[groundStart+7:groundEnd])
@@ -49,6 +52,7 @@ class Level():
         spikesPositions = ast.literal_eval(text[spikesStart+7:spikesEnd])
         windPositions = ast.literal_eval(text[windStart+5:windEnd])
         fakeGroundPositions = ast.literal_eval(text[fakeStart+5:fakeEnd])
+        levelMarkPosition = ast.literal_eval(text[levelMarkStart+10:levelMarkEnd])
 
         for position in groundPositions:
             ground = GroundBlock(position[0], position[1])
@@ -74,7 +78,10 @@ class Level():
             wind = Wind(position[0], position[1])
             self.windList.add(wind)
 
-        self.allSprites = pygame.sprite.Group(self.blockList, self.deathList, self.groundList, self.fallingObjectList, self.windList, self.spikesList)
+        for position in levelMarkPosition:
+            self.levelMark  = LevelMark(levelMarkPosition[0][0],levelMarkPosition[0][1])
+
+        self.allSprites = pygame.sprite.Group(self.blockList, self.deathList, self.groundList, self.fallingObjectList, self.windList, self.spikesList, self.levelMark)
         self.fakeGRoudSprites = pygame.sprite.Group(self.fakeGroundList)
         self.playerSpawn = vec(playerSpawnList[0], playerSpawnList[1])  # the initial position for the player
 
@@ -188,6 +195,15 @@ class Spikes(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         image = pygame.image.load('images/Spike.png')
         self.image = image.convert()
+        self.image = image.convert_alpha()
+        self.rect = image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+class LevelMark(pygame.sprite.Sprite):
+    "When character touches an instance of this class, the next level is loaded"
+    def __init__(self,x,y):
+        pygame.sprite.Sprite.__init__(self)
+        image = pygame.image.load('images/endlevelmark.png')
         self.image = image.convert_alpha()
         self.rect = image.get_rect()
         self.rect.x = x

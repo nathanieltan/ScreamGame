@@ -47,6 +47,11 @@ class levelEditorMain():
                         self.elements.add(Wind(self.boxLeft,self.boxUp))
                     if keys[pygame.K_6]:
                         self.elements.add(fakeGroundBlock(self.boxLeft,self.boxUp))
+                    if keys[pygame.K_9]:
+                        for item in self.elements.sprites():
+                            if type(item)==LevelMark:
+                                item.kill()
+                        self.elements.add(LevelMark(self.boxLeft,self.boxUp))
                     if keys[pygame.K_0]:
                         for item in self.elements.sprites():
                             if type(item)==Character:
@@ -67,6 +72,8 @@ class levelEditorMain():
     def openLevel(self):
         self.levelName = input("Type The Name Of The Level You Would Like To Edit: ")
         try:
+            for item in self.elements:
+                item.kill()
             editingLevel = Level(self.levelName)
             self.elements.add(editingLevel.allSprites)
             hambo = Character(editingLevel.playerSpawn)
@@ -106,6 +113,7 @@ class levelEditorMain():
         spikes = []
         wind = []
         fake_ground = []
+        levelMark = []
         for item in self.elements.sprites():
             if type(item)==Character:
                 character.append(item.rect.x + item.rect.width/2)
@@ -122,8 +130,10 @@ class levelEditorMain():
                 wind.append([item.rect.x,item.rect.y])
             if type(item)==fakeGroundBlock:
                 fake_ground.append([item.rect.x,item.rect.y])
+            if type(item)==LevelMark:
+                levelMark.append([item.rect.x,item.rect.y])
 
-        f.write("Player: %s\nGround: %s\nBlock: %s\nFallingObject: %s\nSpikes: %s\nWind: %s\nFake: %s"%(character,ground,blocks,fallingObjects,spikes,wind,fake_ground))
+        f.write("Player: %s\nGround: %s\nBlock: %s\nFallingObject: %s\nSpikes: %s\nWind: %s\nFake: %s\nLevelMark: %s"%(character,ground,blocks,fallingObjects,spikes,wind,fake_ground,levelMark))
         f.close()
         print("Level has been save under %s" %self.levelName)
     def draw(self):

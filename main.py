@@ -23,14 +23,16 @@ class ScreamGameMain(threading.Thread):
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.recording = recordingThread()
         self.recording.start()
-        self.gameState = 0 # 0 is playing game, 1 is death screen
+
+        self.gameState = 0 # 0 is playing game, 1 is death screen, 2 is win screen
+        self.currentLevel = 1 # the level number
 
     def run(self):
         self.MainLoop()
 
     def MainLoop(self):
         """ main loop of game """
-        self.loadSprites()
+        self.loadSprites(self.currentLevel)
         global displayDebug
         global dt
         # calibration()
@@ -61,21 +63,28 @@ class ScreamGameMain(threading.Thread):
                             displayDebug = True
                     if keys[pygame.K_RETURN]:
                         if self.gameState == 1:
-                            print("test")
                             self.gameState = 0
                             for sprite in self.gameSprites.sprites():
                                 sprite.kill()
-                            self.loadSprites()
-            #if check_Trigger():
-            #    character.vel.y = -350
-            #    character.applyGravity = True
-            # print(self.gameState)
+                            self.loadSprites(self.currentLevel)
+
+            # Checks if character has reached the end of the level
+            if pygame.sprite.spritecollideany(self.character, self.levelMark):
+                for sprite in self.gameSprites.sprites():
+                    sprite.kill()
+                if self.currentLevel == 11:
+                    self.gameState = 2
+                else:
+                    self.currentLevel = self.currentLevel+1
+                    self.loadSprites(self.currentLevel)
+
             if self.gameState == 0:
                 self.drawGame()
+                self.update()
             elif self.gameState == 1:
                 self.drawDeathScreen()
-                i = 0
-            self.update()
+            elif self.gameState == 2;
+                self.drawWinScreen()
 
     def update(self):
         global dt
@@ -98,6 +107,7 @@ class ScreamGameMain(threading.Thread):
 
         if not self.character.alive():
             self.gameState = 1
+
         self.gameSprites.update(dt,self.safeEnviron,self.deathElements)
 
     def drawGame(self):
@@ -136,12 +146,16 @@ class ScreamGameMain(threading.Thread):
         self.screen.blit(self.deathScreen,(0,0))
         pygame.display.flip()
 
-    def loadSprites(self):
-        self.lvl = Level("level11")
+    def drawWinScreen(self):
+        self.screen.blit(self.deathScreen,(0,0))
+        pygame.display.flip()
+        
+    def loadSprites(self,level):
+        self.lvl = Level("level%d" %(level))
         self.character = Character(self.lvl.playerSpawn)
 
         self.gameSprites = pygame.sprite.Group(self.character, self.lvl.groundList,
-                                               self.lvl.blockList,self.lvl.fallingObjectList,self.lvl.windList,self.lvl.spikesList)
+                                               self.lvl.blockList,self.lvl.fallingObjectList,self.lvl.windList,self.lvl.spikesList,self.lvl.levelMark)
         # Sprite Group for environment sprites that won't kill the character
         self.safeEnviron = pygame.sprite.Group(self.lvl.blockList, self.lvl.groundList)
         # Sprite Group for environment sprites that will kill the character
@@ -150,6 +164,8 @@ class ScreamGameMain(threading.Thread):
         self.fallingObjects = pygame.sprite.Group(self.lvl.fallingObjectList)
 
         self.triggerElements = pygame.sprite.Group(self.lvl.fallingObjectList,self.lvl.windList)
+
+        self.levelMark = pygame.sprite.Group(self.lvl.levelMark)
 
 if __name__ == "__main__":
     MainWindow = ScreamGameMain()
