@@ -14,7 +14,7 @@ displayDebug = False  # variable that controls whether debug info is being displ
 
 
 class ScreamGameMain(threading.Thread):
-    def __init__(self, width=1200, height=768):
+    def __init__(self, width=1856, height=768):
         threading.Thread.__init__(self)
         self.width = width
         self.height = height
@@ -43,6 +43,7 @@ class ScreamGameMain(threading.Thread):
         self.deathScreen = pygame.image.load('images/deathScreen.png')
 
         while 1:
+            global i
             dtime_ms = clock.tick(60)  # gets the tick time in milliseconds
             dt = dtime_ms/1000  # converting the tick time to seconds
 
@@ -68,11 +69,12 @@ class ScreamGameMain(threading.Thread):
             #if check_Trigger():
             #    character.vel.y = -350
             #    character.applyGravity = True
-            print(self.gameState)
+            # print(self.gameState)
             if self.gameState == 0:
                 self.drawGame()
             elif self.gameState == 1:
                 self.drawDeathScreen()
+                i = 0
             self.update()
 
     def update(self):
@@ -135,7 +137,7 @@ class ScreamGameMain(threading.Thread):
         pygame.display.flip()
 
     def loadSprites(self):
-        self.lvl = Level("level3")
+        self.lvl = Level("level11")
         self.character = Character(self.lvl.playerSpawn)
 
         self.gameSprites = pygame.sprite.Group(self.character, self.lvl.groundList,
