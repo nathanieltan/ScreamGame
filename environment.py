@@ -165,22 +165,21 @@ class Wind(pygame.sprite.Sprite):
         self.rect = image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.applyGravity = True
+        self.applyGravity = False
         self.vel = vec(0, 0)
         self.accel = vec(0, 0)
 
     def update(self, dt, environmentSprites, deathElements):
         if self.applyGravity:
             self.accel = vec(0, gravity*dt)
-        if pygame.sprite.spritecollideany(self, environmentSprites):
-            self.accel.y = 0
-            self.vel.y = 0
 
-        # self.rect.y += (-self.vel.y * dt + 0.5 * self.accel.y*(dt ** 2))
-        self.rect.y += -12
+        self.rect.y += self.vel.y * dt + 0.5 * self.accel.y * (dt ** 2)
         # update velocity
         self.vel += self.accel * dt
         self.vel.x = int(self.vel.x)
+
+    def trigger(self):
+        self.vel.y = -100
 
 
 class Spikes(pygame.sprite.Sprite):

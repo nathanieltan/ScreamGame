@@ -108,6 +108,7 @@ class recordingThread(threading.Thread):
 
         calibration()
         while(1):
+            time.sleep(.5)
             check = check_trigger(open_stream())
             if check[0]:
                 trigger = False

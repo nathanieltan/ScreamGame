@@ -80,13 +80,14 @@ class ScreamGameMain(threading.Thread):
 
         # Trigger for falling objects
         global i
-        fall = [death for death in self.fallingObjects]
+        deathObject = [death for death in self.triggerElements]
+        deathObject.sort(key=lambda death: death.rect.x)
 
         if not recordingQueue.empty():
             recordingQueue.get()
-            if i <= len(fall) -1:
-                fall[i].trigger()
-                i += 1
+            if i <= len(deathObject) - 1:
+                    deathObject[i].trigger()
+                    i += 1
 
         for sprite in self.gameSprites.sprites():
             pass
@@ -95,7 +96,7 @@ class ScreamGameMain(threading.Thread):
 
         if not self.character.alive():
             self.gameState = 1
-        self.gameSprites.update(dt,self.allEnviron,self.deathElements)
+        self.gameSprites.update(dt,self.safeEnviron,self.deathElements)
 
     def drawGame(self):
         global amp
@@ -128,6 +129,7 @@ class ScreamGameMain(threading.Thread):
                 self.screen.blit(text, textpos)
 
         pygame.display.flip()
+
     def drawDeathScreen(self):
         self.screen.blit(self.deathScreen,(0,0))
         pygame.display.flip()
@@ -142,11 +144,10 @@ class ScreamGameMain(threading.Thread):
         self.safeEnviron = pygame.sprite.Group(self.lvl.blockList, self.lvl.groundList)
         # Sprite Group for environment sprites that will kill the character
         self.deathElements = pygame.sprite.Group(self.lvl.fallingObjectList,self.lvl.windList,self.lvl.spikesList)
-        # Sprite Group for all environment
-        self.allEnviron = pygame.sprite.Group(self.lvl.blockList,self.lvl.groundList)
 
         self.fallingObjects = pygame.sprite.Group(self.lvl.fallingObjectList)
 
+        self.triggerElements = pygame.sprite.Group(self.lvl.fallingObjectList,self.lvl.windList)
 
 if __name__ == "__main__":
     MainWindow = ScreamGameMain()
