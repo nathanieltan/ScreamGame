@@ -6,6 +6,7 @@ from player import *
 from voiceAmplitude import *
 import threading
 import queue
+from dataProcessing import dataTrain
 
 i = 0
 clock = pygame.time.Clock()
@@ -109,8 +110,20 @@ class ScreamGameMain(threading.Thread):
         deathObject.sort(key=lambda death: death.rect.x)
 
         # triggers death elements if recording thread passes trigger in queue
-        if not recordingQueue.empty():
+        if recordingQueue() == 'A':
             recordingQueue.get()
+            if i <= len(deathObject) - 1:
+                    deathObject[i].trigger()
+                    i += 1
+        if recordingQueue() == 'E':
+            recordingQueue.get()
+            time.sleep(2)
+            if i <= len(deathObject) - 1:
+                    deathObject[i].trigger()
+                    i += 1
+        if recordingQueue() == 'O':
+            recordingQueue.get()
+            time.sleep(5)
             if i <= len(deathObject) - 1:
                     deathObject[i].trigger()
                     i += 1
@@ -195,5 +208,7 @@ class ScreamGameMain(threading.Thread):
         self.levelMark = pygame.sprite.Group(self.lvl.levelMark)
 
 if __name__ == "__main__":
+    training_data = dataTrain(sound.txt)
+    nn = nnet.Neural_Network(len(training_data[0][0]), 12, len(training_data[0][1]))
     MainWindow = ScreamGameMain()
     MainWindow.start()
