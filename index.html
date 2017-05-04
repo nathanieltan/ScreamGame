@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<title>SCREAMgame</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-laptop,.fa-user,.fa-cogs,.fa-download, .fa-keyboard-o, .fa-calendar, .fa-check-square-o, .fa-line-chart, .fa-microphone {font-size:200px}
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-red w3-card-2 w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+    <a href="#Description" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Description</a>
+    <a href="#Team" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Team</a>
+    <a href="#Motivation" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Motivation</a>
+    <a href="#Game" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Game</a>
+    <a href="#Implementation" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Implementation</a>
+    <a href="#History" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">History</a>
+    <a href="#Results" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Results</a>
+    <a href="#Attributions" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Attributions</a>
+    <a href="#Future" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Future</a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="#Description" class="w3-bar-item w3-button w3-padding-large">Description</a>
+    <a href="#Team" class="w3-bar-item w3-button w3-padding-large">Team</a>
+    <a href="#Motivation" class="w3-bar-item w3-button w3-padding-large">Motivation</a>
+    <a href="#Game" class="w3-bar-item w3-button w3-padding-large">Game</a>
+    <a href="#Implemntation" class="w3-bar-item w3-button w3-padding-large">Implementation</a>
+    <a href="#History" class="w3-bar-item w3-button w3-padding-large">History</a>
+    <a href="#Results" class="w3-bar-item w3-button w3-padding-large">Results</a>
+    <a href="#Attributions" class="w3-bar-item w3-button w3-padding-large">Attributions</a>
+    <a href="#Future" class="w3-bar-item w3-button w3-padding-large">Future</a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-red w3-center" style="padding:128px 16px">
+  <h1 class="w3-margin w3-jumbo">SCREAMgame</h1>
+  <p class="w3-xlarge">Software Design Spring 2017 Final Project: SCREAMgame</p>
+  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" onclick="location.href='https://github.com/nathanieltan/ScreamGame'">View on Github</button>
+</header>
+
+<!-- First Grid -->
+<div id="Description">
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Have you ever wanted to scream?</h1>
+      <h5 class="w3-padding-32">Introducing ScreamGame. This interactive, voice-controlled, screaming game allows two players to compete against each other: one player controls the character in order to avoid the death traps, while the other player voice-activates the death traps.</h5>
+      <b>The story:</b>
+      <br>
+      <p class="w3-text-grey"><i>The player:</i> It’s a nice day outside so you decide to take a walk for the first time in like thirty weeks (because let’s face it, you don’t get out much do you?). Unfortunately all of your suspicions are right: the outside world is trying to kill you. Get out alive so you can live, and more importantly, play more games on your laptop. Also you’re a cute lil’ hamster.</p>
+      <p class="w3-text-grey"><i>The environment:</i> Some nerd thought they could just take a walk? False. Try to kill them for lols. Even though they are a cute hamster. But since you aren’t a physical body, you got to scream.</p>
+      <b>The gameplay:</b>
+      <br>
+      <p class="w3-text-grey"><i>The player:</i> Use the arrow keys in order to make the hamster jump, move forward, and move backwards until you reach the goal. Make sure to avoid items that will cause certain death.</p>
+      <p class="w3-text-grey"><i>The environment:</i> Scream at the laptop to activate the death traps.</p>
+    </div>
+
+    <div class="w3-third w3-center">
+      <i class="fa fa-laptop w3-padding-64 w3-text-red"></i>
+    </div>
+  </div>
+</div>
+
+<!-- Second Grid -->
+<div id="Team">
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+      <i class="fa fa-user w3-padding-64 w3-text-red w3-margin-right"></i>
+    </div>
+
+    <div class="w3-twothird">
+      <h1>Meet the Team</h1>
+      <h5 class="w3-padding-32">All four project students are part of the ENGR2510 Software Design, Fall 2017 class. As part of a final project project, we elected to create a voice-controlled ‘scream’ game, while also pursuing personal project goals.</h5>
+      <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" onclick="location.href='https://github.com/camillexue/'">Link to Github</button>
+      <p class="w3-text-grey"><b>Camille Xue: </b>Camille is a first year engineering student at Franklin W. Olin College of Engineering, studying Engineering with Computing. Her project goals for this project included working with new libraries and integrating voice input with the game environment. For this project, Camille worked on the voice integration and the environment set-up.</p>
+      <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" onclick="location.href='https://github.com/mindew/'">Link to Github</button>
+      <p class="w3-text-grey"><b>Minju Kang: </b>Minju is a first year engineering student at Franklin W. Olin College of Engineering, studying Electrical Engineering. Her project goals for this project were to learn how to use pygame and to be able to work in a group on a semi-large scale project. Minju’s contributions for this projects were the general game structure design, environment set-up, and player set-up.</p>
+      <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" onclick="location.href='https://github.com/nathanieltan/'">Link to Github</button>
+      <p class="w3-text-grey"><b>Nathaniel Tan: </b>Nathaniel is a first year engineering student at Franklin W. Olin College of Engineering, also studying Electrical Engineering. Project goals for this project included: learning how to integrate physics concepts into game design and learning more about game design. Nathaniel worked on the physics and collision detection engine and the level editor. </p>
+      <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" onclick="location.href='https://github.com/prava-d/'">Link to Github</button>
+      <p class="w3-text-grey"><b>Prava Dhulipalla: </b>Prava, like all of her project partners, is a first year engineering student at Franklin W. Olin College of Engineering, studying Electrical and Computer Engineering. Her project goals were to learn more about machine learning and voice integration with a project. As a result, she worked on the neural network and the voice integration aspects of the code.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Third Grid -->
+<div id="Motivation">
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Motivation</h1>
+      <h5 class="w3-padding-32">Because why would we do this project, anyways?</h5>
+      <p class="w3-text-grey">Our personal motivations, combined with the group motivation of creating a final product of which we were proud and about which we were excited, resulted with the idea of this project.</p>
+      <p class="w3-text-grey">Ultimately, all of us ended up not only engaging with our personal goals, but learning a lot about fields we wanted to explore. Thus, the culmination of this project was not only a success because it was a final product that worked and satisfied the requirements of our lovely Software Design professors, but because we ended up fulfilling our personal motivations.</p>
+      <br>
+      <img src="http://i.imgur.com/Uruf11K.png">
+      <br>
+      <br>
+      <p class="w3-text-grey">This visual shows that the game included many components to help us engage with our personal goals.</p>
+    </div>
+
+    <div class="w3-third w3-center">
+      <i class="fa fa-cogs w3-padding-64 w3-text-red"></i>
+    </div>
+  </div>
+</div>
+  
+<!-- Fourth Grid -->
+<div id="Game">
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+      <i class="fa fa-download w3-padding-64 w3-text-red w3-margin-right"></i>
+    </div>
+
+    <div class="w3-twothird">
+      <h1>Playing the Game</h1>
+      <img src="http://i.imgur.com/46J1bQf.png" alt="imgur.com">
+      <br>
+      <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" onclick="location.href='https://github.com/nathanieltan/ScreamGame/blob/master/README.md'">Link to README.md</button>
+      <p class="w3-text-grey">Please reference the README.md on our original repository in order to play our SCREAM game! Have fun!</p>
+    </div>
+  </div>
+</div>
+  
+<!-- FIfth Grid -->
+<div id="Implementation">
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Implementation</h1>
+      <h5 class="w3-padding-32">Here is an overview of the main parts of our code.</h5>
+      <b>Main Part:</b>
+      <br>
+      <p class="w3-text-grey">Run this! Combines the player and the level for an A+ playing experience.</p>
+      <b>Level Editor:</b>
+      <br>
+      <img src="http://i.imgur.com/nJnO2wX.png" alt="imgur.com">
+      <br>
+      <p class="w3-text-grey">All individual levels are implemented in seperate files, all in one folder. The code specifies which level, which then finds the correct file in the level folder.</p>
+      <b>Player:</b>
+      <br>
+      <p class="w3-text-grey">The player set-up included generating the character, and integrating keyboard commands with character movement.</p>
+      <b>Environment:</b>
+      <br>
+      <p class="w3-text-grey">The environment set-up included generating the sky, the ground, the boxes, and the death-traps.</p>
+      <b>Voice Processing:</b>
+      <br>
+      <p class="w3-text-grey">The game records the character for a small amount of time, and then processes that information to determine whether it was loud enough to make the death traps fall.</p>
+      <b>Neural Network:</b>
+      <br>
+      <p class="w3-text-grey">This trains on the ‘a’, ‘e’, and ‘o’ vowel sounds to differentiate using machine learning methods, specifically a neural network algorithm.</p>
+      <b>Physics and Collision Detection Engine:</b>
+      <br>
+      <p class="w3-text-grey">The physics work off of real life kinematic equations, with the except of the use of trial and error to determine friction and gravity coefficients. The collision detection was fairly basic, as it was two-dimensional and the detection focused on rectangular boxes.</p>
+      <br>
+      <img src="http://i.imgur.com/OO20zfk.png">
+      <br>
+    </div>
+
+    <div class="w3-third w3-center">
+      <i class="fa fa-keyboard-o w3-padding-64 w3-text-red"></i>
+    </div>
+  </div>
+</div>
+  
+<!-- Sixth Grid -->
+<div id="History">
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+      <i class="fa fa-calendar w3-padding-64 w3-text-red w3-margin-right"></i>
+    </div>
+
+    <div class="w3-twothird">
+      <h1>Project History</h1>
+      <h5 class="w3-padding-32">As for actual code building, we built our code starting simple and making it more complex.</h5>
+      <p class="w3-text-grey">1 - Got voice input from the laptop and was able to quantify it. A basic level with the environment and a moving player (through keyboard, only could move back and forth) was created.</p>
+      <p class="w3-text-grey">2 - The voice input was turned into one amplitude. Collision detection and physics was included in the environment and the game environment. Character can jump and interact with the environment.</p>
+      <p class="w3-text-grey">3 - A threshold was set and a calibration period was introduced. Death traps were added.</p>
+      <p class="w3-text-grey">4 - Death traps fall based on voice input. The player can die when coming in contact with interactive traps or land traps.</p>
+      <h5 class="w3-padding-32">In terms of idea, our idea changed quite a bit.</h5>
+      <p class="w3-text-grey">1 - A three-dimensional game with volume and pitch controlling elevation of the landscape. Volume and pitch also control the path that the player has. The game would be played on separate laptops.</p>
+      <p class="w3-text-grey">2 - A three-dimensional game, played on one laptop, with volume and pitch controlling elevation of the landscape but the arrow keys controlling the path of the player.</p>
+      <p class="w3-text-grey">3 - A two-dimensional game, played on one laptop, with volume controlling elevation of the landscape and the arrow keys moving the player.</p>
+      <p class="w3-text-grey">4 - A two-dimensional game, played on one laptop, with volume controlling death traps that kill a character. The player is controlled by the keyboard.</p>
+      <p class="w3-text-grey">5 - A two-dimensional game, played on one laptop, with vowel sounds controlling the type of death trap that kills a character. The player is controlled by the keyboard.</p>
+      <br>
+      <img src="http://i.imgur.com/tV28zil.png">
+    </div>
+  </div>
+</div>
+  
+<!-- Seventh Grid -->
+<div id="Results">
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Results</h1>
+      <h5 class="w3-padding-32">Here are some videos of the gameplay experience.</h5>
+      <iframe width="420" height="315" src="https://www.youtube.com/embed/jZsqoxcna8M"> </iframe>
+      <iframe width="420" height="315" src="https://www.youtube.com/embed/OdKVO05B4rI"> </iframe> 
+    </div>
+
+    <div class="w3-third w3-center">
+      <i class="fa fa-check-square-o w3-padding-64 w3-text-red"></i>
+    </div>
+  </div>
+</div>
+  
+<!-- Eighth Grid -->
+<div id="Attributions">
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+      <i class="fa fa-microphone w3-padding-64 w3-text-red w3-margin-right"></i>
+    </div>
+
+    <div class="w3-twothird">
+      <h1>Attributions</h1>
+      <b>Voice Input:</b>
+      <br>
+      <a href="http://sharewebegin.blogspot.com/2013/07/record-from-mic-python.html">http://sharewebegin.blogspot.com/2013/07/record-from-mic-python.html</a>
+      <a href="https://people.csail.mit.edu/hubert/pyaudio/docs/">https://people.csail.mit.edu/hubert/pyaudio/docs/</a>
+      <p class="w3-text-grey">Initially, these links were used merely used as reference points in order to get audio from the microphone. However, debugging and troubleshooting issues made the code essentially very similar to snippets of code located within these two links.</p>
+      <b>Neural Network:</b>
+      <br>
+      <a href="http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/">http://www.wildml.com/2015/09/implementing-a-neural-network-from-scratch/</a>
+      <a href="http://neuralnetworksanddeeplearning.com/chap1.html">http://neuralnetworksanddeeplearning.com/chap1.html</a>
+      <p class="w3-text-grey">These links were used as references and information sources in order to create an algorithm for a neural network. No code was directly copied from snippets of code located within these links.</p>
+    </div>
+  </div>
+</div>
+  
+<!-- Ninth Grid -->
+<div id="Future">
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Future Steps</h1>
+      <h5 class="w3-padding-32">Although satisfied with the implementation of our vision, we realize there are multiple ways we could carry this project even further.</h5>
+      <b>Neural Network:</b>
+      <br>
+      <p class="w3-text-grey">The neural network is trained on the vowel sounds of ‘a,’ ‘e,’ and ‘o,’ However, more options could be included if it were trained on all the vowel sounds. This would probably require more work on the neural network so that it will be more accurate (or possibly the existing one would be fine). More recognizable vowel sounds means more options in the game. Also, although the neural network theoretically works, Prava fell into the classic training data hubris. This was fine in context of the project and learning goals, but it was still slightly demoralizing.</p>
+      <b>Voice Control:</b>
+      <br>
+      <p class="w3-text-grey">One idea that was discussed was having both elements of the play experience (controlling the player and controlling the environment) be voice-controlled. To do this, the game would have to be hosted on two different laptops (the reason that having the game able to be played across two different laptops wasn’t a significant next step is because we felt that being able to scream and use keyboard commands on one laptop by two people added to the gaming experience).</p>
+      <b>Environment Build:</b>
+      <br>
+      <p class="w3-text-grey">Although the environment is voice-controlled, another option we were considering (and this could go with implementing more vowel sounds) is being able to ‘build’ the environment. As in, when pitch or volume is raised, the environment builds up, and when pitch and volume is lowered, the environment goes deeper.</p>
+      <b>Hosted Online:</b>
+      <br>
+      <p class="w3-text-grey">Using something like Flask, it would be interesting and more convenient if there was a way to host the game on the web instead of making players download a git repository and play it through the terminal window.</p>
+    </div>
+
+    <div class="w3-third w3-center">
+      <i class="fa fa-line-chart w3-padding-64 w3-text-red"></i>
+    </div>
+  </div>
+</div>
+  
+<div class="w3-container w3-black w3-center w3-opacity w3-padding-64">
+    <h1 class="w3-margin w3-xlarge">"Sounds . . . interesting." - My parents when told about this game</h1>
+</div>
+  
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity">
+  <div class="w3-xlarge w3-padding-32">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+ </div>
+ <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
+
+</body>
+</html>
