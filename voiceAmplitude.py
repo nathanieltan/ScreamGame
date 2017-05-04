@@ -10,6 +10,8 @@ import threading
 import queue
 import math
 import struct
+from dataProcessing import dataCompression, dataTrain
+from neural_network import test
 
 
 CHUNK = 1024
@@ -27,22 +29,6 @@ amplitudeQueue = queue.Queue()
 trigger = False
 
 
-def get_rms(block):
-    """ calculates the RMS of the audio block to be used as the amplitude
-    for the sample"""
-
-    count = len(block)/2
-    format = "%dh"%(count)
-    shorts = struct.unpack(format, block)
-
-    sum_squares = 0.0
-    for sample in shorts:
-        n = sample * SHORT_NORMALIZE
-        sum_squares += n*n
-
-    return math.sqrt(sum_squares / count)
-
-
 def open_stream():
     """opens the pyaudio stream for recording, returns stream block"""
     stream = p.open(format=FORMAT,
@@ -57,15 +43,17 @@ def open_stream():
     return block
 
 
-def check_trigger(block):
-    """checks for if amplitude is above the threshold"""
+def check_vowel(block):
+    """Checks which vowel it is
+        input: array of frequencies
+        output: vowel"""
+    output = ['A', 'E', 'O']
+    data = dataCompression(block)
+    test_results = nn.test(test_data)
 
-    global trigger
-    amplitude = get_rms(block)
-    if amplitude > THRESHOLD:
-        trigger = True
-
-    return trigger, amplitude
+    # position of max value in test result vector [n1, n2, n3] decides what vowel it is
+    # example [1, 0, 0] - max value is at index 0 - output[0] is 'A'.
+    return output[np.argmax(test_results)]
 
 
 def calibration():
@@ -105,12 +93,12 @@ class recordingThread(threading.Thread):
         calibration()
         while(1):
             time.sleep(.5)  # helps to prevent simultaneous triggers
-            check = check_trigger(open_stream())  # check if above threshold
-            if check[0]:
-                trigger = False
+            check = check_vowel(open_stream())  # check if above threshold
+            if check == 'A' or check == 'E' or check == 'O':
+                trigger = True
                 if recordingQueue.empty():
-                    recordingQueue.put(True)  # tell main game loop triggered
-            amplitudeQueue.put(check[1])    # always give amplitude
+                    recordingQueue.put(check)  # tell main game loop triggered
+            amplitudeQueue.put(True)    # always give amplitude
 
 
 if __name__ == "__main__":
