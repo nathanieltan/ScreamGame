@@ -25,7 +25,7 @@ class ScreamGameMain(threading.Thread):
         self.recording.start()
 
         self.gameState = 0 # 0 is playing game, 1 is death screen, 2 is win screen
-        self.currentLevel = 11 # the level number
+        self.currentLevel = 1 # the level number
 
         self.characterDeaths = 0
 
@@ -76,6 +76,7 @@ class ScreamGameMain(threading.Thread):
 
             # Checks if character has reached the end of the level
             if pygame.sprite.spritecollideany(self.character, self.levelMark):
+                i = 0
                 for sprite in self.gameSprites.sprites():
                     sprite.kill()
                 if self.currentLevel == 11:

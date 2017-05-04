@@ -28,6 +28,9 @@ trigger = False
 
 
 def get_rms(block):
+    """ calculates the RMS of the audio block to be used as the amplitude
+    for the sample"""
+
     count = len(block)/2
     format = "%dh"%(count)
     shorts = struct.unpack(format, block)
@@ -41,6 +44,7 @@ def get_rms(block):
 
 
 def open_stream():
+    """opens the pyaudio stream for recording, returns stream block"""
     stream = p.open(format=FORMAT,
                     channels=CHANNELS,
                     rate=RATE,
@@ -54,6 +58,8 @@ def open_stream():
 
 
 def check_trigger(block):
+    """checks for if amplitude is above the threshold"""
+
     global trigger
     amplitude = get_rms(block)
     if amplitude > THRESHOLD:
@@ -62,21 +68,9 @@ def check_trigger(block):
     return trigger, amplitude
 
 
-def record(text=True):
-    global trigger
-    for i in range(70):
-        if text:
-            print("Recording")
-        if check_trigger(open_stream()):
-            print("TRIGGER")
-            trigger = False
-        if text:
-            print("Done Recording")
-
-
 def calibration():
     """
-    takes sample of shouting 3 times,
+    takes sample of screaming 3 times,
     sets the average to be the threshold value
     """
     global THRESHOLD
@@ -85,17 +79,19 @@ def calibration():
     print("Starting Calibration...")
 
     for i in range(3):
-        print("Please SHOUT")
-        time.sleep(1)
+        print("Please SCREAM")
+        time.sleep(.5)
         print("Recording")
         for i in range(50):
-            shout_input.append(get_rms(open_stream()))
+            shout_input.append(get_rms(open_stream()))  # stores rms in array
         print("Saving...")
-    THRESHOLD = np.mean(shout_input)
+    THRESHOLD = np.mean(shout_input)  # averages three rms values and sets as threshold
     print("Done calibrating. Threshold set to: {}". format(THRESHOLD))
 
 
 class recordingThread(threading.Thread):
+    """recording thread for main game loop, constantly checks for trigger
+    and puts in thread if above threshold, also returns amplitude constantly"""
     def __init__(self):
         threading.Thread.__init__(self)
         self._stop = threading.Event()
@@ -108,13 +104,13 @@ class recordingThread(threading.Thread):
 
         calibration()
         while(1):
-            time.sleep(.5)
-            check = check_trigger(open_stream())
+            time.sleep(.3)  # helps to prevent simultaneous triggers
+            check = check_trigger(open_stream())  # check if above threshold
             if check[0]:
                 trigger = False
                 if recordingQueue.empty():
-                    recordingQueue.put(True)
-            amplitudeQueue.put(check[1])
+                    recordingQueue.put(True)  # tell main game loop triggered
+            amplitudeQueue.put(check[1])    # always give amplitude
 
 
 if __name__ == "__main__":
