@@ -26,6 +26,8 @@ class Character(pygame.sprite.Sprite):
         self.accel = vec(0, 0)
         self.applyGravity = False
 
+        self.deaths = 0  # keeps track of deaths
+
         self.animationFrames = 0  # counts the amount of frames a sprite has been displayed
         self.animationState = 0
 
@@ -83,6 +85,7 @@ class Character(pygame.sprite.Sprite):
 
     def checkForDeath(self, deathElements):
         if pygame.sprite.spritecollideany(self, deathElements):
+            self.deaths = self.deaths + 1
             self.kill()
 
     def updateAnimation(self):

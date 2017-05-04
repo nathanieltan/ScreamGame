@@ -27,6 +27,8 @@ class ScreamGameMain(threading.Thread):
         self.gameState = 0 # 0 is playing game, 1 is death screen, 2 is win screen
         self.currentLevel = 11 # the level number
 
+        self.characterDeaths = 0
+
     def run(self):
         self.MainLoop()
 
@@ -63,11 +65,14 @@ class ScreamGameMain(threading.Thread):
                         else:
                             displayDebug = True
                     if keys[pygame.K_RETURN]:
+                        i = 0
                         if self.gameState == 1:
                             self.gameState = 0
+                            characterDeathsCopy = 0
                             for sprite in self.gameSprites.sprites():
                                 sprite.kill()
                             self.loadSprites(self.currentLevel)
+                            self.character.deaths = self.characterDeaths
 
             # Checks if character has reached the end of the level
             if pygame.sprite.spritecollideany(self.character, self.levelMark):
@@ -92,6 +97,9 @@ class ScreamGameMain(threading.Thread):
 
         # Trigger for falling objects
         global i
+
+        self.characterDeaths = self.character.deaths
+
         deathObject = [death for death in self.triggerElements]
         deathObject.sort(key=lambda death: death.rect.x)
 
@@ -131,7 +139,15 @@ class ScreamGameMain(threading.Thread):
             font = pygame.font.Font(None, 24)
             text = font.render("Amplitude", 1, (0, 0, 0))
             textpos = text.get_rect(top=125, centerx=75)
+
+            deathCountFont = pygame.font.Font(None, 24)
+            deathCountText = font.render("Death Counter: %s"%self.character.deaths, 1, (128, 128, 128))
+            deathCounterTextPos = text.get_rect(top=730, centerx=1750)
+
+            pygame.draw.rect(self.screen, (0, 0, 0), (1700, 725, 150, 25))  # Rectangle behind death counter
+
             self.screen.blit(text, textpos)
+            self.screen.blit(deathCountText,deathCounterTextPos)
 
         if displayDebug:
             if pygame.font:
