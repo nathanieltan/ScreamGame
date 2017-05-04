@@ -90,6 +90,7 @@ class Level():
 
 
 class GroundBlock(pygame.sprite.Sprite):
+    """Level Ground"""
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         image = pygame.image.load('images/ground.png')
@@ -99,23 +100,6 @@ class GroundBlock(pygame.sprite.Sprite):
         self.rect = image.get_rect()
         self.rect.x = x
         self.rect.y = y
-
-
-class fakeGroundBlock(pygame.sprite.Sprite):
-    """ Fake Ground that disappears when the player touches"""
-    def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self)
-        image = pygame.image.load('images/fake_ground.png')
-
-        self.image = image.convert()
-        self.image = image.convert_alpha()
-        self.rect = image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-
-    # def update(self, nogroundSprites):
-    #     if pygame.sprite.spritecollideany(self, nogroundSprites):
-    #         self.kill
 
 
 class Block(pygame.sprite.Sprite):
@@ -199,9 +183,11 @@ class Spikes(pygame.sprite.Sprite):
         self.rect = image.get_rect()
         self.rect.x = x
         self.rect.y = y
+
+
 class LevelMark(pygame.sprite.Sprite):
-    "When character touches an instance of this class, the next level is loaded"
-    def __init__(self,x,y):
+    """When character touches an instance of this class, the next level is loaded"""
+    def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
         image = pygame.image.load('images/endlevelmark.png')
         self.image = image.convert_alpha()

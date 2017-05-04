@@ -14,6 +14,7 @@ displayDebug = False  # variable that controls whether debug info is being displ
 
 
 class ScreamGameMain(threading.Thread):
+    """This class defines the game itself. Includes game initialization and game loop"""
     def __init__(self, width=1856, height=768):
         threading.Thread.__init__(self)
         self.width = width
@@ -59,11 +60,14 @@ class ScreamGameMain(threading.Thread):
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     keys = pygame.key.get_pressed()
+                    # toggle debugging screen
                     if keys[pygame.K_F3]:
                         if displayDebug:
                             displayDebug = False
                         else:
                             displayDebug = True
+
+                    # resets the level after death
                     if keys[pygame.K_RETURN]:
                         i = 0
                         if self.gameState == 1:
@@ -88,9 +92,9 @@ class ScreamGameMain(threading.Thread):
             if self.gameState == 0:
                 self.drawGame()
                 self.update()
-            elif self.gameState == 1:
+            elif self.gameState == 1:   # lose screen
                 self.drawDeathScreen()
-            elif self.gameState == 2:
+            elif self.gameState == 2:   # win screen
                 self.drawWinScreen()
 
     def update(self):
@@ -104,23 +108,28 @@ class ScreamGameMain(threading.Thread):
         deathObject = [death for death in self.triggerElements]
         deathObject.sort(key=lambda death: death.rect.x)
 
+        # triggers death elements if recording thread passes trigger in queue
         if not recordingQueue.empty():
             recordingQueue.get()
             if i <= len(deathObject) - 1:
                     deathObject[i].trigger()
                     i += 1
 
+        # kills sprite if they go above game window
         for sprite in self.gameSprites.sprites():
             pass
             if sprite.rect.top > self.height:
                 sprite.kill()
 
+        # changes game state to lose
         if not self.character.alive():
             self.gameState = 1
 
+        # calls the update function in all sprites
         self.gameSprites.update(dt,self.safeEnviron,self.deathElements)
 
     def drawGame(self):
+        """Draws all sprites and text onto the screen and blits surfaces"""
         global amp
         self.screen.blit(self.background, (0, 0))
         self.gameSprites.draw(self.screen)
@@ -130,6 +139,7 @@ class ScreamGameMain(threading.Thread):
         else:
             amp = amplitudeQueue.get()
 
+        # sets height to correspond to amplitude, displays amplitude
         height = -amp*1000
         if height < -80:
             height = -80
@@ -141,6 +151,7 @@ class ScreamGameMain(threading.Thread):
             text = font.render("Amplitude", 1, (0, 0, 0))
             textpos = text.get_rect(top=125, centerx=75)
 
+            # displays character death count
             deathCountFont = pygame.font.Font(None, 24)
             deathCountText = font.render("Death Counter: %s"%self.character.deaths, 1, (128, 128, 128))
             deathCounterTextPos = text.get_rect(top=730, centerx=1750)
@@ -178,9 +189,7 @@ class ScreamGameMain(threading.Thread):
         self.safeEnviron = pygame.sprite.Group(self.lvl.blockList, self.lvl.groundList)
         # Sprite Group for environment sprites that will kill the character
         self.deathElements = pygame.sprite.Group(self.lvl.fallingObjectList,self.lvl.windList,self.lvl.spikesList)
-
-        self.fallingObjects = pygame.sprite.Group(self.lvl.fallingObjectList)
-
+        # Sprite group for death elements that are triggered by voice
         self.triggerElements = pygame.sprite.Group(self.lvl.fallingObjectList,self.lvl.windList)
 
         self.levelMark = pygame.sprite.Group(self.lvl.levelMark)
