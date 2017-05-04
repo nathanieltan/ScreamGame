@@ -24,8 +24,8 @@ class ScreamGameMain(threading.Thread):
         self.recording = recordingThread()
         self.recording.start()
 
-        self.gameState = 0 # 0 is playing game, 1 is death screen, 2 is win screen
-        self.currentLevel = 1 # the level number
+        self.gameState = 0  # 0 is playing game, 1 is death screen, 2 is win screen
+        self.currentLevel = 1  # the level number
 
         self.characterDeaths = 0
 

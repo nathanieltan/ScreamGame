@@ -104,7 +104,7 @@ class recordingThread(threading.Thread):
 
         calibration()
         while(1):
-            time.sleep(.3)  # helps to prevent simultaneous triggers
+            time.sleep(.5)  # helps to prevent simultaneous triggers
             check = check_trigger(open_stream())  # check if above threshold
             if check[0]:
                 trigger = False
