@@ -1,5 +1,8 @@
 # ScreamGame
 
+## **Website:**
+[link to website](https://prava-d.github.io/SCREAMgame/)
+
 ## **Name:**
 
 ScreamGame: Voice- and Keyboard-controlled collaborative computer game’
