@@ -4,7 +4,7 @@ import os, sys
 vec = pygame.math.Vector2
 facingRight = True
 gravity = 30000
-friction = -3
+friction = -5
 
 
 class Character(pygame.sprite.Sprite):
@@ -40,13 +40,13 @@ class Character(pygame.sprite.Sprite):
         # character keyboard inputs
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            self.accel.x = -500
+            self.accel.x = -800
             if facingRight:
                 facingRight = False
                 self.image = pygame.transform.flip(self.image, True, False)
 
         elif keys[pygame.K_RIGHT]:
-            self.accel.x = 500
+            self.accel.x = 800
             if not facingRight:
                 facingRight = True
                 self.image = pygame.transform.flip(self.image, True, False)
@@ -54,7 +54,7 @@ class Character(pygame.sprite.Sprite):
             self.accel.x = 0
 
         if keys[pygame.K_UP] and not self.applyGravity:  # jumping
-            self.vel.y = -350
+            self.vel.y = -420
             self.applyGravity = True
 
         # self.applyGravity = True
@@ -120,6 +120,8 @@ class Character(pygame.sprite.Sprite):
                     self.vel.y = 0
                 if yvel < 0:
                     self.rect.top = element.rect.bottom
+                    self.vel.x = 0
+                    self.vel.y = 0
                 self.pos.x = self.rect.midbottom[0]
                 self.pos.y = self.rect.midbottom[1]
                 verticallyCollide = True

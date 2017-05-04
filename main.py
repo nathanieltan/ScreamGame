@@ -25,7 +25,7 @@ class ScreamGameMain(threading.Thread):
         self.recording.start()
 
         self.gameState = 0 # 0 is playing game, 1 is death screen, 2 is win screen
-        self.currentLevel = 1 # the level number
+        self.currentLevel = 11 # the level number
 
     def run(self):
         self.MainLoop()
@@ -43,6 +43,7 @@ class ScreamGameMain(threading.Thread):
         self.background = self.background.convert()
 
         self.deathScreen = pygame.image.load('images/deathScreen.png')
+        self.winScreen = pygame.image.load('images/winScreen.png')
 
         while 1:
             global i
@@ -83,7 +84,7 @@ class ScreamGameMain(threading.Thread):
                 self.update()
             elif self.gameState == 1:
                 self.drawDeathScreen()
-            elif self.gameState == 2;
+            elif self.gameState == 2:
                 self.drawWinScreen()
 
     def update(self):
@@ -147,9 +148,9 @@ class ScreamGameMain(threading.Thread):
         pygame.display.flip()
 
     def drawWinScreen(self):
-        self.screen.blit(self.deathScreen,(0,0))
+        self.screen.blit(self.winScreen,(0,0))
         pygame.display.flip()
-        
+
     def loadSprites(self,level):
         self.lvl = Level("level%d" %(level))
         self.character = Character(self.lvl.playerSpawn)
