@@ -1,0 +1,4 @@
+CentralA.wav A
+a_front.wav A
+e.wav E
+o.wav O
